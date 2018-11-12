@@ -6,10 +6,11 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 
 import model.Coordinates;
-import model.TranslationEvent;
+import model.TransferEvent;
+import type.LevelListener;
 import type.NetworkListener;
 
-public class ServerHost {
+public class Server implements LevelListener {
 	
 	private String ipAdress;
 	private int port;
@@ -18,16 +19,20 @@ public class ServerHost {
 	private ArrayList<NetworkListener> listeners;
 	
 	
-	public ServerHost(String ipAdress, int port) {
+	public Server(String ipAdress, int port) {
 		this.ipAdress= ipAdress;
 		this.port= port;
 	}
 	
+	public Server(Coordinates playerCoordinates, Coordinates bossCoordinates) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void run() {
 		initServer();
 	}
 	
-	public void update(TranslationEvent te){
+	public void update(TransferEvent te){
 		this.playerPosition= te.getNewPlayerPosition();
 		this.bossPosition= te.getNewBossPosition();
 	}

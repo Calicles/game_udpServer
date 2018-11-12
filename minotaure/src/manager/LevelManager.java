@@ -1,8 +1,26 @@
 package manager;
 
+import model.Coordinates;
+import network.Server;
+import type.AbstractLevel;
 import type.Controller;
+import type.LevelListener;
+import type.NetworkListener;
 
-public class LevelManager implements Controller {
+public class LevelManager implements Controller, NetworkListener {
+	
+	private AbstractLevel level;
+	
+	
+	public Coordinates getBossCoordinates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Coordinates getPlayerCoordinates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public void createLevel(int levelType) {
@@ -33,5 +51,12 @@ public class LevelManager implements Controller {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void addListener(LevelListener listener) {
+		level.addListener(listener);
+		
+	}
+
+
 
 }

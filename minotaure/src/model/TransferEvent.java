@@ -1,10 +1,10 @@
 package model;
 
-public class TranslationEvent {
+public class TransferEvent {
 	
 	private Coordinates newPlayerPosition, newBossPosition;
 	
-	public TranslationEvent(Coordinates playerPosition, Coordinates bossPosition) {
+	public TransferEvent(Coordinates playerPosition, Coordinates bossPosition) {
 		this.newPlayerPosition= playerPosition;
 		this.newBossPosition= bossPosition;
 	}
