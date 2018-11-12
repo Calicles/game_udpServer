@@ -5,8 +5,7 @@ public class NetWork {
 	
 	
 	
-	
-	private class UD_MachineGun() {
+	public class UD_MachineGun() {
 		
 		
 	}
