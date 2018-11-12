@@ -18,10 +18,12 @@ public class MinotaureAppli {
 		
 		levelManager= new LevelManager();
 		levelManager.setMap(map);
-		frame= new Frame(levelManager);
-		frame.setDimension(map.getSize());
+		
+		frame= new Frame(levelManager, map.getSize());
+		
 		server= new Server(levelManager.getPlayerCoordinates(), levelManager.getBossCoordinates());
 		server.addListener(levelManager);
+		
 		levelManager.addListener(server);
 		
 	}

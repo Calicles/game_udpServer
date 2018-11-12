@@ -11,8 +11,17 @@ public class Frame extends JFrame {
 	
 	
 
-	public Frame(Controller controller) {
-		// TODO Auto-generated constructor stub
+	public Frame(Controller controller, Dimension screenDimension) {
+		Container container= new Container(controller, screenDimension);
+		JStartMenu menu= new JStartMenu(controller);
+		
+		this.add(menu);
+		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
+		
+		this.add(container);
+		
 	}
 	
 
@@ -21,10 +30,5 @@ public class Frame extends JFrame {
 		return 0;
 	}
 
-
-	public void setDimension(Dimension size) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

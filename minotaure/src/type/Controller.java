@@ -1,5 +1,7 @@
 package type;
 
+import java.awt.Graphics;
+
 public interface Controller {
 	
 	void createLevel(int levelType);
@@ -7,5 +9,6 @@ public interface Controller {
 	void playerMovesRight();
 	void playerMovesUp();
 	void playerMovesDown();
+	void drawLevel(Graphics g);
 
 }

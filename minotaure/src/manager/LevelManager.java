@@ -1,7 +1,10 @@
 package manager;
 
+import java.awt.Graphics;
+
 import model.Coordinates;
 import network.Server;
+import services.LevelFactory;
 import type.AbstractLevel;
 import type.AbstractMap;
 import type.Controller;
@@ -30,8 +33,14 @@ public class LevelManager implements Controller, NetworkListener {
 
 	@Override
 	public void createLevel(int levelType) {
-		// TODO Auto-generated method stub
+		this.level= LevelFactory.getLevelInstance(levelType);
+	}
+	
 
+	@Override
+	public void drawLevel(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
