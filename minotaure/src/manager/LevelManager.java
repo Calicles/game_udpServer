@@ -3,6 +3,7 @@ package manager;
 import model.Coordinates;
 import network.Server;
 import type.AbstractLevel;
+import type.AbstractMap;
 import type.Controller;
 import type.LevelListener;
 import type.NetworkListener;
@@ -20,6 +21,11 @@ public class LevelManager implements Controller, NetworkListener {
 	public Coordinates getPlayerCoordinates() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setMap(AbstractMap map) {
+		level.setMap(map);
+		
 	}
 
 	@Override
@@ -56,7 +62,6 @@ public class LevelManager implements Controller, NetworkListener {
 		level.addListener(listener);
 		
 	}
-
 
 
 }

@@ -8,8 +8,14 @@ public abstract class AbstractLevel {
 	private ArrayList<LevelListener> listeners;
 	
 	
+
+
+	public void setMap(AbstractMap map) {
+		this.map= map;
+	}
 	public void addListener(LevelListener listener) {
 		listeners.add(listener);
 	}
+
 
 }
