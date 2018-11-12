@@ -1,18 +1,11 @@
 package network;
 
-public class NetWork {
+import type.LevelListener;
+
+public class NetWork implements LevelListener {
 	
 	
 	
 	
-	public class UD_MachineGun() {
-		
-		
-	}
-	
-	private class UD_Catcher() {
-		
-		
-	}
 
 }
