@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -27,7 +29,10 @@ public class JStartMenu extends JPanel {
 		});
 		
 		this.setPreferredSize(screenDimension);
-		
+		this.setLayout(new BorderLayout());
+		this.add(levelHostButton, BorderLayout.NORTH);
+		this.add(levelClientButton, BorderLayout.SOUTH);
+		this.setBackground(Color.BLACK);
 		
 	}
 	

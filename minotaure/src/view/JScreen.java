@@ -7,9 +7,11 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 
+import model.TransferEvent;
 import type.Controller;
 import type.LevelListener;
 
+@SuppressWarnings("serial")
 public class JScreen extends JPanel implements LevelListener {
 	
 	Controller controller;
@@ -25,6 +27,7 @@ public class JScreen extends JPanel implements LevelListener {
 	
 	@Override
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		controller.drawLevel(g);
 	}
 	
@@ -54,6 +57,15 @@ public class JScreen extends JPanel implements LevelListener {
 			// TODO Auto-generated method stub
 			
 		}
+	}
+
+
+
+
+	@Override
+	public void update(TransferEvent te) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

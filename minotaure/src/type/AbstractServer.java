@@ -2,11 +2,13 @@ package type;
 
 import java.util.ArrayList;
 
+import model.Coordinates;
+
 public abstract class AbstractServer implements LevelListener{
 	
 	private ArrayList<NetworkListener> listeners;
 	
-	abstract public void run();
+	public void run(Coordinates playerPosition, Coordinates bossPosition) {}
 	
 	public void addListener(NetworkListener listener) {
 		listeners.add(listener);

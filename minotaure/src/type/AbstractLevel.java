@@ -2,6 +2,8 @@ package type;
 
 import java.util.ArrayList;
 
+import model.Coordinates;
+
 public abstract class AbstractLevel {
 	
 	private AbstractMap map;
@@ -15,6 +17,14 @@ public abstract class AbstractLevel {
 	}
 	public void addListener(LevelListener listener) {
 		listeners.add(listener);
+	}
+	public Coordinates getPlayerCoordinates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public Coordinates getBossCoordinates() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

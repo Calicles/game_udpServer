@@ -19,7 +19,7 @@ public class Container extends JPanel {
 		this.remove(menu);
 		
 		screen= new JScreen(controller, screenDimension);
-		info = new JInfoPanel();
+		info = new JInfoPanel(screenDimension.width);
 		controller.addNetWorkListener(info);
 		this.setLayout(new BorderLayout());
 		this.add(screen, BorderLayout.CENTER);

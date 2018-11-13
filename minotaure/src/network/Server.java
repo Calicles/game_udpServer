@@ -16,12 +16,13 @@ public class Server extends AbstractServer {
 	private int port;
 	private final long SLEEP= 1000/24;
 	private Coordinates playerPosition, bossPosition;
-
 	
 	
 	public Server(String ipAdress, int port) {
 		this.ipAdress= ipAdress;
 		this.port= port;
+		this.playerPosition= null;
+		this.bossPosition= null;
 	}
 	
 	public Server(Coordinates playerCoordinates, Coordinates bossCoordinates) {
@@ -32,7 +33,9 @@ public class Server extends AbstractServer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void run() {
+	public void run(Coordinates playerPosition, Coordinates bossPosition) {
+		this.playerPosition= playerPosition;
+		this.bossPosition= bossPosition;
 		initServer();
 	}
 	
@@ -44,9 +47,10 @@ public class Server extends AbstractServer {
 	private void initServer() {
 			Thread launcher= new Thread(new UD_MachineGun());
 			Thread catcher= new Thread(new UD_Catcher());
-			 launcher.setDaemon(true);
-			 catcher.setDaemon(true);
-		
+			launcher.setDaemon(true);
+			catcher.setDaemon(true);
+			launcher.start();
+			catcher.start();
 	}
 	
 	private class UD_MachineGun implements Runnable {

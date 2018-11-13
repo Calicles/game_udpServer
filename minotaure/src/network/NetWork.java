@@ -1,5 +1,6 @@
 package network;
 
+import model.Coordinates;
 import services.ServerFactory;
 import type.AbstractServer;
 import type.LevelListener;
@@ -19,8 +20,8 @@ public class NetWork {
 		line.addListener(listener);
 	}
 
-	public void run() {
-		line.run();
+	public void run(Coordinates playerPosition, Coordinates bossPosition) {
+		line.run(playerPosition, bossPosition);
 	}
 	
 	
