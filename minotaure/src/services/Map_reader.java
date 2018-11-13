@@ -13,7 +13,9 @@ public class Map_reader {
 	public static int[][] readMap(){
 		int[][] map= null;
 		
-		try(BufferedReader reader= new BufferedReader(new FileReader(new File("map/map.txt")))){
+		try(BufferedReader reader= 
+				new BufferedReader(new FileReader(new File("ressources/map/map.txt")))){
+			
 			String[] line;
 			String[] bounds= reader.readLine().split(" ");
 			int width= Integer.parseInt(bounds[0]);
@@ -37,7 +39,9 @@ public class Map_reader {
 	public static HashMap<Integer, BufferedImage> readTileSet(){
 		HashMap<Integer, BufferedImage> tileSet= new HashMap<>();
 		
-		try(BufferedReader reader= new BufferedReader(new FileReader(new File("map/tileSet.txt")))){
+		try(BufferedReader reader= 
+				new BufferedReader(new FileReader(new File("ressources/map/tileSet.txt")))){
+			
 			BufferedImage image;
 			String[] line;
 			

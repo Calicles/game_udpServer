@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import model.Coordinates;
 import model.TransferEvent;
+import services.Byte_translator;
+import services.IP_reader;
 import type.AbstractServer;
 import type.NetworkListener;
 
@@ -18,19 +20,12 @@ public class Server extends AbstractServer {
 	private Coordinates playerPosition, bossPosition;
 	
 	
-	public Server(String ipAdress, int port) {
-		this.ipAdress= ipAdress;
-		this.port= port;
+	public Server() {
+		String[] socket= IP_reader.readSocket().split(" ");
+		this.ipAdress= socket[0];
+		this.port= Integer.parseInt(socket[1]);
 		this.playerPosition= null;
 		this.bossPosition= null;
-	}
-	
-	public Server(Coordinates playerCoordinates, Coordinates bossCoordinates) {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Server() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void run(Coordinates playerPosition, Coordinates bossPosition) {
@@ -62,12 +57,13 @@ public class Server extends AbstractServer {
 					
 				//Ouverture Sécurisé, fermeture auto en cas de throws
 				try(DatagramSocket launcher= new DatagramSocket()) {
+					
 					//initialise l'addresse
 					InetAddress address= InetAddress.getByName(ipAdress);
 					DatagramPacket packet;
 					
 					//Créé le paquet à envoyer
-					byte[] buffer= translateCoordinates();
+					byte[] buffer= coordinatesToByteArray();
 					packet= new DatagramPacket(buffer, buffer.length, address, port);
 					packet.setData(buffer);
 						
@@ -82,9 +78,15 @@ public class Server extends AbstractServer {
 			
 		}
 		
-		private byte[] translateCoordinates() {
+		private byte[] coordinatesToByteArray() {
+			byte[] res= new byte[Integer.SIZE * 4];
+			byte[] bytes1= Byte_translator.toByteArray(playerPosition);
+			byte[] bytes2= Byte_translator.toByteArray(bossPosition);
 			
-			return new byte[10]; //TO change
+			Byte_translator.copy(bytes1, res, 0);
+			Byte_translator.copy(bytes2, res, bytes1.length);
+			
+			return res; 
 		}
 		
 	}
@@ -96,7 +98,8 @@ public class Server extends AbstractServer {
 			
 			while(true) {
 					
-					try(DatagramSocket catcher= new DatagramSocket()){
+				try(DatagramSocket catcher= new DatagramSocket()){
+					
 					InetAddress address= InetAddress.getByName(ipAdress);
 					DatagramPacket packet;
 					
@@ -112,9 +115,14 @@ public class Server extends AbstractServer {
 			}
 			
 		}
+		
+		private Coordinates byteArrayToCoordinates(byte[] bytes) {
+			
+			return null;
+		}
 
 		private synchronized void fireUpdate(DatagramPacket packet) {
-			// TODO Auto-generated method stub
+			//TO DO
 			
 		}
 		
