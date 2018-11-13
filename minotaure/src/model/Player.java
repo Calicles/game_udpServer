@@ -1,5 +1,13 @@
 package model;
 
-public class Player extends Character_with_Transfert_strategy {
+import type.AbstractCharacter_with_transfer;
+
+public class Player extends AbstractCharacter_with_transfer {
+	
+	public Player() {
+		transfer_strategy= new Player_transferStrategy_std();
+	}
+
+
 
 }

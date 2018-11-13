@@ -97,14 +97,14 @@ public class LevelManager implements Controller, NetworkListener {
 
 	@Override
 	public void updateState(NetEvent ne) {
-		// TODO Auto-generated method stub
+		if(ne.getLineState()) level.start();
 		
 	}
 
 
 	@Override
 	public void update(TransferEvent te) {
-		// TODO Auto-generated method stub
+		level.update(te);
 		
 	}
 

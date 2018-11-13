@@ -3,11 +3,12 @@ package type;
 import java.util.ArrayList;
 
 import model.Coordinates;
+import model.TransferEvent;
 
 public abstract class AbstractLevel {
 	
 	private AbstractMap map;
-	private ArrayList<LevelListener> listeners;
+	protected ArrayList<LevelListener> listeners;
 	
 	
 
@@ -25,6 +26,17 @@ public abstract class AbstractLevel {
 	public Coordinates getBossCoordinates() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void update(TransferEvent te) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	protected void fireUpdate() {
 	}
 
 
