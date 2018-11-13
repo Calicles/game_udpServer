@@ -8,8 +8,6 @@ import javax.swing.JFrame;
 
 
 public class Frame extends JFrame {
-	
-	
 
 	public Frame(Controller controller, Dimension screenDimension) {
 		Container container= new Container(controller, screenDimension);
@@ -26,6 +24,12 @@ public class Frame extends JFrame {
 	
 
 	public int proposeLevelChoice() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	public int getTypeGame() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

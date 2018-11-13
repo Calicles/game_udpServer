@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 import model.Coordinates;
 import model.TransferEvent;
-import type.LevelListener;
+import type.AbstractServer;
 import type.NetworkListener;
 
-public class Server implements LevelListener {
+public class Server extends AbstractServer {
 	
 	private String ipAdress;
 	private int port;
 	private final long SLEEP= 1000/24;
 	private Coordinates playerPosition, bossPosition;
-	private ArrayList<NetworkListener> listeners;
+
 	
 	
 	public Server(String ipAdress, int port) {
@@ -28,6 +28,10 @@ public class Server implements LevelListener {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Server() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void run() {
 		initServer();
 	}
@@ -35,14 +39,6 @@ public class Server implements LevelListener {
 	public void update(TransferEvent te){
 		this.playerPosition= te.getNewPlayerPosition();
 		this.bossPosition= te.getNewBossPosition();
-	}
-	
-	public void addListener(NetworkListener listener) {
-		listeners.add(listener);
-	}
-	
-	public void removeListener(NetworkListener listener) {
-		listeners.remove(listener);
 	}
 
 	private void initServer() {

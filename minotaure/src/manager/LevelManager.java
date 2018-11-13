@@ -14,6 +14,7 @@ import type.NetworkListener;
 public class LevelManager implements Controller, NetworkListener {
 	
 	private AbstractLevel level;
+	private int levelType;
 	
 	
 	public Coordinates getBossCoordinates() {
@@ -25,6 +26,8 @@ public class LevelManager implements Controller, NetworkListener {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public int getLevelType() {return levelType;}
 
 	public void setMap(AbstractMap map) {
 		level.setMap(map);
@@ -33,6 +36,7 @@ public class LevelManager implements Controller, NetworkListener {
 
 	@Override
 	public void createLevel(int levelType) {
+		this.levelType= levelType;
 		this.level= LevelFactory.getLevelInstance(levelType);
 	}
 	

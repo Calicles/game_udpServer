@@ -3,6 +3,7 @@ package launchers;
 
 import manager.LevelManager;
 import model.Map;
+import network.NetWork;
 import network.Server;
 import type.AbstractMap;
 import view.Frame;
@@ -13,7 +14,7 @@ public class MinotaureAppli {
 		
 		LevelManager levelManager;
 		Frame frame;
-		Server server;
+		NetWork server;
 		AbstractMap map= new Map();
 		
 		levelManager= new LevelManager();
@@ -21,10 +22,11 @@ public class MinotaureAppli {
 		
 		frame= new Frame(levelManager, map.getSize());
 		
-		server= new Server(levelManager.getPlayerCoordinates(), levelManager.getBossCoordinates());
+		server= new NetWork();
+		server.initLine(levelManager.getLevelType());
 		server.addListener(levelManager);
 		
-		levelManager.addListener(server);
+		levelManager.addListener(server.getLine());
 		
 	}
 
