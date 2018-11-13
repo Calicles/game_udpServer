@@ -12,20 +12,19 @@ public class MinotaureAppli {
 	
 	public MinotaureAppli() {
 		
+		Dimension screenSize= new Dimension(640, 640);
 		LevelManager levelManager;
 		Frame frame;
-		AbstractMap map= new Map();
 		
 		levelManager= new LevelManager();
 		
-		frame= new Frame(levelManager, map.getSize());
+		frame= new Frame(levelManager, screenSize);
 
 		while(!frame.getUserChoosed());
 		
+		levelManager.setScreenSize(screenSize);
 		frame.loadScreen();
-		
-		levelManager.setMap(map);
-		
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package manager;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import model.Coordinates;
@@ -17,12 +18,10 @@ public class LevelManager implements Controller, NetworkListener {
 	
 	private AbstractLevel level;
 	private NetWork server;
-	private int levelType;
 	
 	public LevelManager() {
 		level= null;
 		server= null;
-		levelType= 0;
 	}
 	
 	
@@ -35,17 +34,13 @@ public class LevelManager implements Controller, NetworkListener {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public int getLevelType() {return levelType;}
 
-	public void setMap(AbstractMap map) {
-		level.setMap(map);
-		
+	public void setScreenSize(Dimension screenSize) {
+		level.setScreenSize(screenSize);
+		level.start();
 	}
-
 	@Override
 	public void createLevel(int levelType) {
-		this.levelType= levelType;
 		this.level= LevelFactory.getLevelInstance(levelType);
 		this.server= new NetWork();
 		server.initLine(levelType);

@@ -1,11 +1,33 @@
 package type;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+
+import services.Map_reader;
 
 public abstract class AbstractMap {
 	
-	private int[][] tiles;
+	public static final int solidTile= 10;
+	protected int[][] tiles;
+	protected HashMap<Integer, BufferedImage> tileSet;
+	protected Dimension size;
 	
-	public Dimension getSize() {return new Dimension(640,640);}
+	protected int tile_width, tile_height;
+	
+	public AbstractMap() {
+		tiles= Map_reader.readMap();
+		tileSet= Map_reader.readTileSet();
+		
+		tile_width= tileSet.get(0).getWidth();
+		tile_height= tileSet.get(0).getHeight();
+		size= new Dimension(tile_width * tiles[0].length, tile_height * tiles.length);
+	}
+	
+	public Dimension getSize() {return size;}
+	public int[][] getTiles(){return tiles;}
+	
+	abstract public void drawMap(Graphics g);
 
 }

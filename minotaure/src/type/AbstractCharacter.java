@@ -8,12 +8,10 @@ import model.Rectangle;
 public abstract class AbstractCharacter {
 	
 	protected BufferedImage[] leftAnim, rightAnim, upAnim, downAnim;
+	protected BufferedImage currentImage;
 	protected Rectangle position;
 	
-	public void memorizeMoves() {
-		
-	}
-	
 	public Coordinates getCoordinates() {return position.getCoordinates();}
+	public BufferedImage getImage() {return currentImage;}
 
 }

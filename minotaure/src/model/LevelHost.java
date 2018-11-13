@@ -1,14 +1,14 @@
 package model;
 
+import java.awt.Graphics;
+
 import type.AbstractLevel;
 import type.LevelListener;
 
 public class LevelHost extends AbstractLevel {
 	
+	protected Boss boss;
 	private Thread gameLoop;
-	private Player player;
-	private Player2 player2;
-	private Boss boss;
 	
 	private boolean inGame;
 	
@@ -24,6 +24,17 @@ public class LevelHost extends AbstractLevel {
 	public void playerMovesUp() {}
 	public void playerMovesDown() {}
 	
+	public void drawLevel(Graphics g) {
+		super.drawLevel(g);
+		drawBoss(g);
+	}
+	
+	private void drawBoss(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	private void runGameLoop() {
 		gameLoop= new Thread(()-> {
 			
@@ -31,16 +42,16 @@ public class LevelHost extends AbstractLevel {
 				loop();
 			}
 		});
+		gameLoop.start();
 	}
 	
 	private void loop() {
 		player.memorizeMoves();
+		boss.memorizeMoves();
 		synchronized(this) {
-			player2.memorizeMoves();
-			boss.memorizeMoves();
 			checkCollision();
+			fireUpdate();
 		}
-		fireUpdate();
 	}
 	
 	protected void fireUpdate() {
