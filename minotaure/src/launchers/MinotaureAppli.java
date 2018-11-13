@@ -1,6 +1,8 @@
 package launchers;
 
 
+import java.awt.Dimension;
+
 import manager.LevelManager;
 import model.Map;
 import type.AbstractMap;
@@ -8,7 +10,6 @@ import view.Frame;
 
 public class MinotaureAppli {
 	
-	@SuppressWarnings("unused")
 	public MinotaureAppli() {
 		
 		LevelManager levelManager;
@@ -18,6 +19,10 @@ public class MinotaureAppli {
 		levelManager= new LevelManager();
 		
 		frame= new Frame(levelManager, map.getSize());
+
+		while(!frame.getUserChoosed());
+		
+		frame.loadScreen();
 		
 		levelManager.setMap(map);
 		

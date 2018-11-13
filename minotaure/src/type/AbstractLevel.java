@@ -7,7 +7,7 @@ import model.TransferEvent;
 
 public abstract class AbstractLevel {
 	
-	private AbstractMap map;
+	protected AbstractMap map;
 	protected ArrayList<LevelListener> listeners;
 	
 	

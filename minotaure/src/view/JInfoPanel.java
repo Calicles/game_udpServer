@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 import model.NetEvent;
 import model.TransferEvent;
@@ -16,17 +18,19 @@ public class JInfoPanel extends JPanel implements NetworkListener {
 	private boolean inGame;
 	private Dimension size;
 	
-	public JInfoPanel(int width) {
+	public JInfoPanel(Dimension dimension) {
+		Border border= BorderFactory.createLineBorder(Color.YELLOW, 2);
 		inGame= false;
-		size= new Dimension(width, 150);
+		size= dimension;
 		this.setBackground(Color.BLACK);
+		this.setBorder(border);
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Color old= g.getColor();
-		g.setColor(Color.CYAN);
+		g.setColor(Color.WHITE);
 		if(!inGame) {
 			g.drawString("En attente d'une connexion", 0, 0);
 		}else

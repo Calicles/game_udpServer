@@ -5,10 +5,7 @@ import java.awt.Dimension;
 public abstract class AbstractMap {
 	
 	private int[][] tiles;
-
-	public Dimension getSize() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	public Dimension getSize() {return new Dimension(640,640);}
 
 }
