@@ -10,5 +10,7 @@ public interface Controller {
 	void playerMovesUp();
 	void playerMovesDown();
 	void drawLevel(Graphics g);
+	void addListener(LevelListener listener);
+	void addNetWorkListener(NetworkListener listener);
 
 }
