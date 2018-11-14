@@ -39,55 +39,25 @@ public abstract class AbstractLevel {
 		scrollBoxes= new DoubleBoxes(new Coordinates(0, 0), screenSize, rec);
 	}
 	
+	public Coordinates getPlayerCoordinates() {return player.getCoordinates();}
+	public void start() {} 
+	abstract public void update(TransferEvent te);
+	abstract protected void fireUpdate();
+	abstract Coordinates getBossCoordinates();
+	
+	public void scroll(Coordinates scrollingVector) {
+		scrollBoxes.scroll(scrollingVector);
+	}
+
+	
 	public void drawLevel(Graphics g) {
-		drawMap(g);
-		drawPlayerOne(g);
-		drawPlayerTwo(g);
-	}
-
-	private void drawPlayerTwo(Graphics g) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void drawPlayerOne(Graphics g) {
-		Coordinates coor= player.getCoordinates();
-		coor= translateToScreenPosition(coor);
-		g.drawImage(player.getImage(), coor.getX(), coor.getY(), null);
-		
-	}
-
-	private void drawMap(Graphics g) {
+		player.draw(g, scrollBoxes.getScreenCoordinates());
+		player2.draw(g, scrollBoxes.getScreenCoordinates());
 		map.drawMap(g);
 	}
 
 	public void addListener(LevelListener listener) {
 		listeners.add(listener);
-	}
-	public Coordinates getPlayerCoordinates() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Coordinates getBossCoordinates() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public void start() {
-		// TODO Auto-generated method stub
-		
-	}
-	public void update(TransferEvent te) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	protected void fireUpdate() {
-	}
-	
-	private Coordinates translateToScreenPosition(Coordinates characterPosition) {
-		Coordinates result;
-		
-		return null;
 	}
 
 

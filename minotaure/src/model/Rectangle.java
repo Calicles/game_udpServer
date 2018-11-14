@@ -1,5 +1,10 @@
 package model;
 
+/**
+ * 
+ * @author antoine
+ *
+ */
 public class Rectangle extends Coordinates {
 	
 	private int width, height;
@@ -9,6 +14,10 @@ public class Rectangle extends Coordinates {
 		this.width= width;
 		this.height= height;
 	}
+	
+	public int getWidth() {return width;}
+	public int getHeight() {return height;}
+	
 
 	public Coordinates getCoordinates() {
 		// TODO Auto-generated method stub
@@ -19,5 +28,6 @@ public class Rectangle extends Coordinates {
 		
 		
 	}
+
 
 }

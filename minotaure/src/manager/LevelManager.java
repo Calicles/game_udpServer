@@ -52,8 +52,7 @@ public class LevelManager implements Controller, NetworkListener {
 
 	@Override
 	public void drawLevel(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		level.drawLevel(g);
 	}
 
 	@Override

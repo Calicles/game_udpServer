@@ -25,9 +25,14 @@ public abstract class AbstractMap {
 		size= new Dimension(tile_width * tiles[0].length, tile_height * tiles.length);
 	}
 	
+	public int getWidth() {return size.width;}
+	public int getHeight() {return size.height;}
 	public Dimension getSize() {return size;}
 	public int[][] getTiles(){return tiles;}
+	public int getTileWidth() {return tile_width;}
+	public int getTIleHeight() {return tile_height;}
 	
 	abstract public void drawMap(Graphics g);
+
 
 }

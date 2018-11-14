@@ -1,30 +1,23 @@
 package type;
 
-
+import model.Coordinates;
+import model.Rectangle;
 
 public abstract class AbstractTransfer {
 	
 	protected int xVector, yVector;
 	
 	
-	public void movesLeft() {
-		
-	}
+	public abstract void movesLeft();
+	public abstract void movesRight();
+	public abstract void movesUp();
+	public abstract void movesDown();
+	public abstract void released();
+	public abstract Coordinates memorizeMoves(Rectangle position, AbstractMap map);
 	
-	public void movesRight() {
-		
-	}
-	
-	public void movesUp() {
-		
-	}
-	
-	public void movesDown() {
-		
-	}
-
 	public AbstractTile isSolidTileOnRoad(AbstractMap map) {
-		
+	
 		return null;
 	}
+	
 }
