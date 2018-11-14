@@ -2,7 +2,7 @@ package model;
 
 public class Coordinates {
 	
-	private int x, y;
+	protected int x, y;
 	
 	public Coordinates(int x, int y) {
 		this.x= x;

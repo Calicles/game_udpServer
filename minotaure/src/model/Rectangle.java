@@ -17,6 +17,8 @@ public class Rectangle extends Coordinates {
 	
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}
+	public int getEndX() {return x + width;}
+	public int getEndY() {return y + height;}
 	
 
 	public Coordinates getCoordinates() {

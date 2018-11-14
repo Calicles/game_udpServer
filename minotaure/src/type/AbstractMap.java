@@ -30,7 +30,7 @@ public abstract class AbstractMap {
 	public Dimension getSize() {return size;}
 	public int[][] getTiles(){return tiles;}
 	public int getTileWidth() {return tile_width;}
-	public int getTIleHeight() {return tile_height;}
+	public int getTileHeight() {return tile_height;}
 	
 	abstract public void drawMap(Graphics g);
 

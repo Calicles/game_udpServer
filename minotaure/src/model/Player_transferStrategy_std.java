@@ -23,47 +23,63 @@ public class Player_transferStrategy_std extends AbstractTransfer {
 			//On cherche la direction
 			if(xVector < 0) {
 				
-				//si au bord de la map
+				//si au bord de la map on annule ou réduit le vecteur
 				if(playerX < map.getTileWidth() && x <= 0) {
 					xVector= 0 - playerX;
-				}else {
 					
-					//Si rencontre une tuile solide
-					if((tile= checkLeftTile()) != null) {
-						xVector= (tile.getX() + tile.getWidth()) - playerX;
-					}
+				//Si au bord d'une tuile solide idem
+				}else if((tile= checkLeftTiles()) != null) {
+					xVector= tile.getEndX() - playerX;
 				}
 			}else {
 				if(playerX > map.getWidth() - map.getTileWidth()) {
 					xVector= map.getWidth() - playerX;
 				}else {
-					if((tile= checkRightTile()) != null) {
-						xVector= tile.getX() - (playerX + position.getWidth());
+					if((tile= checkRightTiles()) != null) {
+						xVector= tile.getX() - (position.getEndX());
 					}
 				}
 			}
 		}else if(yVector != 0) {
 			y= position.getY() + yVector;
 			if(yVector < 0) {
-				
+				if(playerY < map.getTileHeight() && y <= 0) {
+					yVector= 0 - playerY;
+				}else if((tile= checkOnUpTiles()) != null){
+					yVector= tile.getEndY() - playerY;
+				}
 			}else {
-				
+				if(playerY > map.getHeight() - map.getTileHeight() && y >= map.getHeight()) {
+					yVector= map.getHeight() - playerY;
+				}else if((tile= checkOnDownTiles()) != null) {
+					yVector= tile.getEndY() - playerY;
+				}
 			}
 		}
 		//Change les coordonnes du joueur
 		position.setCoordinates(position.getX() + xVector, position.getY() + yVector);
+		//On return pour scrolling
 		return new Coordinates(xVector, yVector);
 	}
 	
 	
-private Rectangle checkRightTile() {
+private Rectangle checkOnDownTiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+private Rectangle checkOnUpTiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+private Rectangle checkRightTiles() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
+	private Rectangle checkLeftTiles() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 }
-	private Rectangle checkLeftTile() {
-		// TODO Auto-generated method stub
-		return null;
-	}
