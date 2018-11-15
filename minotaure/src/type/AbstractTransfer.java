@@ -92,6 +92,7 @@ public abstract class AbstractTransfer {
 					int y= i * map.getTileHeight();
 					return new Rectangle(new Coordinates(x, y),
 							map.getTileWidth(), map.getTileHeight());
+					
 				}
 			}
 		}
