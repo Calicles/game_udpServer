@@ -20,7 +20,6 @@ public class Server extends AbstractServer {
 	private Coordinates playerPosition, bossPosition;
 	private ArrayList<NetworkListener> listeners;
 	
-	
 	public Server() {
 		String[] socket= IP_reader.readSocket().split(" ");
 		this.ipAdress= socket[0];
