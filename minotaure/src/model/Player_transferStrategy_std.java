@@ -19,7 +19,7 @@ public class Player_transferStrategy_std extends AbstractTransfer {
 		return vectors;
 	}
 	
-	private Coordinates adaptVectorsByPlayer2(Rectangle position, Rectangle player2Position, Coordinates vectors) {
+	private void adaptVectorsByPlayer2(Rectangle position, Rectangle player2Position, Coordinates vectors) {
 		if(vectors.getX() != 0 || vectors.getY() != 0) {
 			int x= vectors.getX(), y= vectors.getY();
 			
@@ -33,8 +33,6 @@ public class Player_transferStrategy_std extends AbstractTransfer {
 				checkDown(position, player2Position, vectors);
 			}
 		}
-		
-		return null;
 	}
 	
 	private void checkUp(Rectangle position, Rectangle player2Position, Coordinates vectors) {
