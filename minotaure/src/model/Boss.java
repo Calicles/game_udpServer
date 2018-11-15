@@ -11,6 +11,6 @@ public class Boss extends AbstractCharacter_with_transfer {
 	}
 	
 	public void memorizeMoves(Rectangle playerPosition, AbstractMap map) {
-		
+		transfer_strategy.memorizeBossMoves(this.position, playerPosition, map);	
 	}
 }

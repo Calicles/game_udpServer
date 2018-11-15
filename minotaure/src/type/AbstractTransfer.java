@@ -15,7 +15,7 @@ public abstract class AbstractTransfer {
 	public void released() {}
 	
 	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {return null;}
-	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition, AbstractMap map) {}
+	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition2, AbstractMap map) {}
 	
 	protected Coordinates adaptVectorsBySolidTiles(Rectangle position, AbstractMap map) {
 		Rectangle tile;
@@ -72,7 +72,7 @@ public abstract class AbstractTransfer {
 		xMax= position.getEndX() / map.getTileWidth();
 		y= position.getY() / map.getTileHeight() +1;
 		yMax= y;
-		return new Rectangle(new Coordinates(x, y), xMax, yMax);
+		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
 	private Rectangle checkOnUpTiles(Rectangle position, AbstractMap map) {
 
@@ -82,7 +82,7 @@ public abstract class AbstractTransfer {
 		xMax= position.getEndX() / map.getTileWidth();
 		y= position.getY() / map.getTileHeight() -1;
 		yMax= y;
-		return new Rectangle(new Coordinates(x, y), xMax, yMax);
+		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
 	private Rectangle checkRightTiles(Rectangle position, AbstractMap map) {
 		
@@ -92,7 +92,7 @@ public abstract class AbstractTransfer {
 		xMax= x;
 		y= position.getY() / map.getTileWidth();
 		yMax= position.getEndY() / map.getTileHeight();
-		return new Rectangle(new Coordinates(x, y), xMax, yMax);
+		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
 	
 	private Rectangle checkLeftTiles(Rectangle position, AbstractMap map) {
@@ -103,7 +103,7 @@ public abstract class AbstractTransfer {
 		xMax= x;
 		y= position.getY() / map.getTileHeight();
 		yMax= position.getEndY() / map.getTileHeight();
-		return new Rectangle(new Coordinates(x, y), xMax, yMax);
+		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
 	
 	public Rectangle isSolidTileOnRoad(Rectangle surface, AbstractMap map) {

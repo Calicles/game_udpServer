@@ -7,18 +7,19 @@ public class IA_transfertStrategy_std extends AbstractTransfer {
 	
 
 	@Override
-	public void memorizeMoves(Rectangle position, Rectangle playerPosition, AbstractMap map) {
+	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition, AbstractMap map) {
 		//l'IA trouve une direction
-		findVector();
-		Coordinates vectors= adaptVectors(position, map);
+		findVector(position, playerPosition, map);
+		Coordinates vectors= adaptVectorsBySolidTiles(position, map);
 		
 		//Change les coordonnes du perso
 		position.setCoordinates(position.getX() + vectors.getX(), position.getY() + vectors.getY());
 	}
 
-	private void findVector() {
+	private Coordinates findVector(Rectangle position, Rectangle playerPosition, AbstractMap map) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
+
 
 }
