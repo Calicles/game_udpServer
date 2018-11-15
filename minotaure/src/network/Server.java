@@ -83,6 +83,9 @@ public class Server extends AbstractServer {
 			
 		}
 		
+		/**
+		 * met le thrad en pause
+		 */
 		private void sleep() {
 			long delta= after - before;
 			if(delta < SLEEP) {
