@@ -33,14 +33,14 @@ public abstract class AbstractTransfer {
 					xVector= 0 - playerX;
 					
 				//Si au bord d'une tuile solide idem
-				}else if((tile= checkLeftTiles()) != null) {
+				}else if((tile= checkLeftTiles(position, map)) != null) {
 					xVector= tile.getEndX() - playerX;
 				}
 			}else {
 				if(playerX > map.getWidth() - map.getTileWidth()) {
 					xVector= map.getWidth() - playerX;
 				}else {
-					if((tile= checkRightTiles()) != null) {
+					if((tile= checkRightTiles(position, map)) != null) {
 						xVector= tile.getX() - (position.getEndX());
 					}
 				}
@@ -50,13 +50,13 @@ public abstract class AbstractTransfer {
 			if(yVector < 0) {
 				if(playerY < map.getTileHeight() && y <= 0) {
 					yVector= 0 - playerY;
-				}else if((tile= checkOnUpTiles()) != null){
+				}else if((tile= checkOnUpTiles(position, map)) != null){
 					yVector= tile.getEndY() - playerY;
 				}
 			}else {
 				if(playerY > map.getHeight() - map.getTileHeight() && y >= map.getHeight()) {
 					yVector= map.getHeight() - playerY;
-				}else if((tile= checkOnDownTiles()) != null) {
+				}else if((tile= checkOnDownTiles(position, map)) != null) {
 					yVector= tile.getEndY() - playerY;
 				}
 			}
@@ -65,28 +65,54 @@ public abstract class AbstractTransfer {
 		return new Coordinates(xVector, yVector);
 	}
 	
-	private Rectangle checkOnDownTiles() {
-		// TODO Auto-generated method stub
-		return null;
+	private Rectangle checkOnDownTiles(Rectangle position, AbstractMap map) {
+
+		int x, y, xMax, yMax;
+		
+		x= position.getX() / map.getTileWidth();
+		xMax= position.getEndX() / map.getTileWidth();
+		y= position.getY() / map.getTileHeight() +1;
+		yMax= y;
+		return new Rectangle(new Coordinates(x, y), xMax, yMax);
 	}
-	private Rectangle checkOnUpTiles() {
-		// TODO Auto-generated method stub
-		return null;
+	private Rectangle checkOnUpTiles(Rectangle position, AbstractMap map) {
+
+		int x, y, xMax, yMax;
+		
+		x= position.getX() / map.getTileWidth();
+		xMax= position.getEndX() / map.getTileWidth();
+		y= position.getY() / map.getTileHeight() -1;
+		yMax= y;
+		return new Rectangle(new Coordinates(x, y), xMax, yMax);
 	}
-	private Rectangle checkRightTiles() {
-		// TODO Auto-generated method stub
-		return null;
+	private Rectangle checkRightTiles(Rectangle position, AbstractMap map) {
+		
+		int x, y, xMax, yMax;
+		
+		x= position.getEndX() / map.getTileWidth() +1;
+		xMax= x;
+		y= position.getY() / map.getTileWidth();
+		yMax= position.getEndY() / map.getTileHeight();
+		return new Rectangle(new Coordinates(x, y), xMax, yMax);
 	}
-	private Rectangle checkLeftTiles() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private Rectangle checkLeftTiles(Rectangle position, AbstractMap map) {
+		
+		int x, y, xMax, yMax;
+		
+		x= position.getX() / map.getTileWidth() -1;
+		xMax= x;
+		y= position.getY() / map.getTileHeight();
+		yMax= position.getEndY() / map.getTileHeight();
+		return new Rectangle(new Coordinates(x, y), xMax, yMax);
 	}
+	
 	public Rectangle isSolidTileOnRoad(Rectangle surface, AbstractMap map) {
 		int[][] tiles= map.getTiles();
 		
-		for(int i= surface.getY(); i < surface.getEndY(); i++) {
+		for(int i= surface.getY(); i <= surface.getHeight(); i++) {
 			
-			for(int j= surface.getX(); j < surface.getEndY(); j++) {
+			for(int j= surface.getX(); j <= surface.getWidth(); j++) {
 				if(AbstractMap.isSolidTiles(tiles[i][j])){
 					int x= j * map.getTileWidth();
 					int y= i * map.getTileHeight();

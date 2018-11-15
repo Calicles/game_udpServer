@@ -14,9 +14,7 @@ public class Player_transferStrategy_std extends AbstractTransfer {
 	@Override
 	public Coordinates memorizeMoves(Rectangle position, AbstractMap map) {
 		Coordinates vectors= adaptVectors(position, map);
-		//Change les coordonnes du perso
-		position.setCoordinates(position.getX() + vectors.getX(), position.getY() + vectors.getY());
-		return null;
+		return vectors;
 	}
 
 	

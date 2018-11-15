@@ -13,12 +13,22 @@ public class Player extends AbstractCharacter_with_transfer {
 	public void movesRight() {transfer_strategy.movesRight();}
 	public void movesUp() {transfer_strategy.movesUp();}
 	public void movesDown() {transfer_strategy.movesDown();}
-	public void movesReleased() {transfer_strategy.released();}
+	
+	public void movesReleased() {
+		animIndex= 0; 
+		animationStoped();
+		transfer_strategy.released();
+		}
 	
 	public Coordinates memorizeMoves(AbstractMap map) {
-		return transfer_strategy.memorizeMoves(this.position, map);
+		Coordinates vectors= transfer_strategy.memorizeMoves(this.position, map);
+		
+		//Change les coordonnes du perso
+		position.setCoordinates(position.getX() + vectors.getX(), position.getY() + vectors.getY());
+		
+		//change la sprite
+		changeSprite(vectors);
+		return vectors;
 	}
-
-
 
 }
