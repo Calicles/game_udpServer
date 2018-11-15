@@ -5,7 +5,8 @@ import type.AbstractMap;
 
 public class Boss extends AbstractCharacter_with_transfer {
 
-	public Boss() {
+	public Boss(String setUrl) {
+		super(setUrl);
 		transfer_strategy= new IA_transfertStrategy_std();
 	}
 	

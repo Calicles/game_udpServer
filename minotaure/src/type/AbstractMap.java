@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import model.Rectangle;
 import services.Map_reader;
 
 public abstract class AbstractMap {
@@ -35,6 +36,11 @@ public abstract class AbstractMap {
 	abstract public void drawMap(Graphics g);
 	
 	public static boolean isSolidTiles(int tile_num) {return tile_num >= solidTile;}
+
+	public boolean isScreenOnBoard(Rectangle screenPosition) {
+		return (screenPosition.getX() <= 0 || screenPosition.getEndX() >= size.width
+				|| screenPosition.getY() <= 0 || screenPosition.getEndY() >= size.height);
+	}
 
 
 }

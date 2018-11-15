@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import model.Coordinates;
 import model.Rectangle;
+import services.Character_reader;
 import services.Coordinates_translator;
 
 public abstract class AbstractCharacter {
@@ -16,10 +17,15 @@ public abstract class AbstractCharacter {
 	
 	protected int direction, animIndex; //le second est un paramètre à envoyer via le server
 	
-	public AbstractCharacter() {
-		
+	public AbstractCharacter(String setUrl) {
+		Coordinates buffer= new Coordinates(0, 0);
+		animation= Character_reader.readCharactereAnimation(setUrl, buffer);
+		position= new Rectangle(buffer, animation.get(0)[0].getWidth(),
+				animation.get(0)[0].getHeight());
+		currentImage= animation.get(0)[0];
 	}
 	
+	public Rectangle getPosition() {return position;}
 	public int getDirection() {return direction;}
 	public int getAnimIndex() {return animIndex;}
 	public Coordinates getCoordinates() {return position.getCoordinates();}

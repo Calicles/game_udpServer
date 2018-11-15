@@ -7,10 +7,13 @@ public abstract class AbstractCharacter_with_transfer extends AbstractCharacter 
 	
 	protected AbstractTransfer transfer_strategy;
 	private int tempo;
+	
+	public AbstractCharacter_with_transfer(String setUrl) {
+		super(setUrl);
+	}
 
 	public Coordinates memorizeMoves() {return null;}
-	public void memorizeMoves(Rectangle playerPosition, AbstractMap map) {}
-	
+	public void memorizeMoves(Rectangle playerPosition, AbstractMap map) {}	
 
 	protected void changeSprite(Coordinates vectors) {
 		if(vectors.getX() != 0 || vectors.getY() != 0) {

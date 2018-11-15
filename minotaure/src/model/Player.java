@@ -5,7 +5,8 @@ import type.AbstractMap;
 
 public class Player extends AbstractCharacter_with_transfer {
 	
-	public Player() {
+	public Player(String setUrl) {
+		super(setUrl);
 		transfer_strategy= new Player_transferStrategy_std();
 	}
 

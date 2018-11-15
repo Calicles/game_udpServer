@@ -18,14 +18,14 @@ public class Map_reader {
 			
 			String[] line;
 			String[] bounds= reader.readLine().split(" ");
-			int width= Integer.parseInt(bounds[0]);
-			int height= Integer.parseInt(bounds[1]);
-			map= new int[height][width];
+			int iMax= Integer.parseInt(bounds[0]);
+			int jMax= Integer.parseInt(bounds[1]);
+			map= new int[iMax][jMax];
 			
-			for(int i= 0; i < height; i++) {
+			for(int i= 0; i < iMax; i++) {
 				
 				line= reader.readLine().split(" ");
-				for(int j= 0; j < width; j++) {
+				for(int j= 0; j < jMax; j++) {
 					map[i][j]= Integer.parseInt(line[j]);
 				}
 			}

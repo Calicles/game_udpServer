@@ -7,7 +7,7 @@ package model;
  */
 public class Rectangle extends Coordinates {
 	
-	private int width, height;
+	protected int width, height;
 	
 	public Rectangle(Coordinates coordinates, int width, int height) {
 		super(coordinates.getX(), coordinates.getY());

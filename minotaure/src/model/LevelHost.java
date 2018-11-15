@@ -13,8 +13,8 @@ public class LevelHost extends AbstractLevel {
 	private boolean inGame;
 	
 	public LevelHost() {
-		player= new Player();
-		boss= new Boss();
+		super("ressources/player/set.txt", "");
+		boss= new Boss("ressources/boss/set.txt");
 		inGame= false;
 	}
 	
@@ -28,13 +28,8 @@ public class LevelHost extends AbstractLevel {
 	
 	public void drawLevel(Graphics g) {
 		super.drawLevel(g);
-		drawBoss(g);
-	}
-	
-	private void drawBoss(Graphics g) {
 		boss.draw(g, scrollBoxes.getScreenCoordinates());
 	}
-
 
 	private void runGameLoop() {
 		gameLoop= new Thread(()-> {

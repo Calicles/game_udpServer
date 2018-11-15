@@ -16,6 +16,9 @@ public class DoubleBoxes extends Rectangle {
 		this.scrollBox= scrollBox;
 	}
 
+	public Rectangle getScreenPosition() {return new Rectangle(new Coordinates(this.x, this.y),
+			this.width, this.height);
+	}
 	public Coordinates getScreenCoordinates() {return super.getCoordinates();}
 
 	/**
@@ -29,6 +32,11 @@ public class DoubleBoxes extends Rectangle {
 		scrollBox.setCoordinates(scrollBox.getX() + scrollingVector.getX(), 
 				scrollBox.getY() + scrollingVector.getY());
 		
+	}
+
+	public boolean isPlayerOnScrollBox(Rectangle position) {
+		//TODO
+		return false;	
 	}
 
 }

@@ -10,7 +10,11 @@ public class Coordinates {
 	}
 
 	public int getX() {return x;}
-
 	public int getY() {return y;}
+	
+	public void setCoordinates(Coordinates newPosition) {
+		this.x= newPosition.getX();
+		this.y= newPosition.getY();
+	}
 
 }

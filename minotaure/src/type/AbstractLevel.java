@@ -20,9 +20,9 @@ public abstract class AbstractLevel {
 	protected DoubleBoxes scrollBoxes;
 	protected ArrayList<LevelListener> listeners;
 	
-	public AbstractLevel() {
-		player= new Player();
-		player2= new Player2();
+	public AbstractLevel(String playerUrl, String player2Url) {
+		player= new Player(playerUrl);
+		player2= new Player2(player2Url);
 		map= new Map();
 	}
 
@@ -42,18 +42,27 @@ public abstract class AbstractLevel {
 	public Coordinates getPlayerCoordinates() {return player.getCoordinates();}
 	public void start() {} 
 	abstract public void update(TransferEvent te);
-	abstract protected void fireUpdate();
-	abstract Coordinates getBossCoordinates();
-	
-	public void scroll(Coordinates scrollingVector) {
-		scrollBoxes.scroll(scrollingVector);
-	}
+	protected abstract void fireUpdate();
+	public abstract Coordinates getBossCoordinates();
 
-	
 	public void drawLevel(Graphics g) {
 		player.draw(g, scrollBoxes.getScreenCoordinates());
 		player2.draw(g, scrollBoxes.getScreenCoordinates());
 		map.drawMap(g);
+	}
+	
+	public void scroll(Coordinates scrollingVector) {
+		if(!isScreenOnBoard() && isPlayerOnScrollBox())
+			scrollBoxes.scroll(scrollingVector);
+	}
+
+	
+	private boolean isScreenOnBoard() {
+		return map.isScreenOnBoard(scrollBoxes.getScreenPosition());
+	}
+
+	private boolean isPlayerOnScrollBox() {
+		return scrollBoxes.isPlayerOnScrollBox(player.getPosition());
 	}
 
 	public void addListener(LevelListener listener) {
