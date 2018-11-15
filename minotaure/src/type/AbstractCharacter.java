@@ -24,12 +24,17 @@ public abstract class AbstractCharacter {
 				animation.get(0)[0].getHeight());
 		currentImage= animation.get(0)[0];
 	}
+	public AbstractCharacter() {}
 	
 	public Rectangle getPosition() {return position;}
 	public int getDirection() {return direction;}
 	public int getAnimIndex() {return animIndex;}
 	public Coordinates getCoordinates() {return position.getCoordinates();}
 	public BufferedImage getImage() {return currentImage;}
+	
+	public void setCoordinates(Coordinates newPosition) {
+		position.setCoordinates(newPosition.getX(), newPosition.getY());
+	}
 	
 	public void draw(Graphics g, Coordinates screen) {
 		Coordinates byScreen= Coordinates_translator.toScreenCoordinates(position.getCoordinates(), 
