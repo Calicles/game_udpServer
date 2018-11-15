@@ -18,6 +18,7 @@ public class Server extends AbstractServer {
 	private int port;
 	private final long SLEEP= 1000/24;
 	private Coordinates playerPosition, bossPosition;
+	private ArrayList<NetworkListener> listeners;
 	
 	
 	public Server() {
@@ -50,9 +51,12 @@ public class Server extends AbstractServer {
 	
 	private class UD_MachineGun implements Runnable {
 
+		private long before, after;
+		
 		@Override
 		public void run() {
 				
+			before= System.currentTimeMillis();
 			while(true) {
 					
 				//Ouverture Sécurisé, fermeture auto en cas de throws
@@ -73,11 +77,22 @@ public class Server extends AbstractServer {
 					Thread.sleep(SLEEP); //To change créer un delta pour réellement caler le temps
 					
 				}catch(Throwable t){}
-						
+				after= System.currentTimeMillis();
+				sleep();
+				before= System.currentTimeMillis();		
 			}
 			
 		}
 		
+		private void sleep() {
+			long delta= after - before;
+			if(delta < SLEEP) {
+				try {
+					Thread.sleep(SLEEP - delta);
+				}catch(InterruptedException ie) {}
+			}
+		}
+
 		private byte[] coordinatesToByteArray() {
 			byte[] res= new byte[Integer.SIZE * 4];
 			byte[] bytes1= Byte_translator.toByteArray(playerPosition);
@@ -93,9 +108,12 @@ public class Server extends AbstractServer {
 	
 	private class UD_Catcher implements Runnable{
 
+		private long before, after;
+		
 		@Override
 		public void run() {
 			
+			before= System.currentTimeMillis();
 			while(true) {
 					
 				try(DatagramSocket catcher= new DatagramSocket()){
@@ -111,7 +129,9 @@ public class Server extends AbstractServer {
 					fireUpdate(packet);
 					
 				}catch(Throwable t) {}
-				
+				after= System.currentTimeMillis();
+				sleep();
+				before= System.currentTimeMillis();
 			}
 			
 		}
@@ -124,6 +144,15 @@ public class Server extends AbstractServer {
 		private synchronized void fireUpdate(DatagramPacket packet) {
 			//TO DO
 			
+		}
+		
+		private void sleep() {
+			long delta= after - before;
+			if(delta < SLEEP) {
+				try {
+					Thread.sleep(SLEEP - delta);
+				}catch(InterruptedException ie) {}
+			}
 		}
 		
 		
