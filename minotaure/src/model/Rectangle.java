@@ -14,7 +14,7 @@ public class Rectangle extends Coordinates {
 		this.width= width;
 		this.height= height;
 	}
-	
+
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}
 	public int getEndX() {return x + width;}
