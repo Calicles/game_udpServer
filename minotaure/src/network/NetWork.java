@@ -10,6 +10,10 @@ public class NetWork {
 	
 	private AbstractServer line;
 	
+	public NetWork() {
+		line= null;
+	}
+	
 	public LevelListener getLine() {return line;}
 	
 	public void initLine(int type) {
