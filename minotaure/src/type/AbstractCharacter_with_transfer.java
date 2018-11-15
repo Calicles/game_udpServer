@@ -12,8 +12,8 @@ public abstract class AbstractCharacter_with_transfer extends AbstractCharacter 
 		super(setUrl);
 	}
 
-	public Coordinates memorizeMoves() {return null;}
-	public void memorizeMoves(Rectangle playerPosition, AbstractMap map) {}	
+	public Coordinates memorizePlayerMoves(Rectangle player2Position, AbstractMap map) {return null;}
+	public void memorizeBossMoves(Rectangle player1Position, Rectangle player2Position, AbstractMap map) {}	
 
 	protected void changeSprite(Coordinates vectors) {
 		if(vectors.getX() != 0 || vectors.getY() != 0) {

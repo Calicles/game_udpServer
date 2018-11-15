@@ -3,9 +3,8 @@ package type;
 import model.Coordinates;
 
 public abstract class AbstractCharacter_without_transfer extends AbstractCharacter {
-	
-	
-	
+
+
 	public AbstractCharacter_without_transfer(String setUrl) {
 		super(setUrl);
 		// TODO Auto-generated constructor stub

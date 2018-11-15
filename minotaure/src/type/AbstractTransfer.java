@@ -14,10 +14,10 @@ public abstract class AbstractTransfer {
 	public void movesDown() {}
 	public void released() {}
 	
-	public Coordinates memorizeMoves(Rectangle position, AbstractMap map) {return null;}
-	public void memorizeMoves(Rectangle position, Rectangle playerPosition, AbstractMap map) {}
+	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {return null;}
+	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition, AbstractMap map) {}
 	
-	protected Coordinates adaptVectors(Rectangle position, AbstractMap map) {
+	protected Coordinates adaptVectorsBySolidTiles(Rectangle position, AbstractMap map) {
 		Rectangle tile;
 		int playerX= position.getX(), playerY= position.getY(), x, y;
 		
@@ -64,7 +64,6 @@ public abstract class AbstractTransfer {
 		//On return pour scrolling
 		return new Coordinates(xVector, yVector);
 	}
-	
 	private Rectangle checkOnDownTiles(Rectangle position, AbstractMap map) {
 
 		int x, y, xMax, yMax;

@@ -21,8 +21,8 @@ public class Player extends AbstractCharacter_with_transfer {
 		transfer_strategy.released();
 		}
 	
-	public Coordinates memorizeMoves(AbstractMap map) {
-		Coordinates vectors= transfer_strategy.memorizeMoves(this.position, map);
+	public Coordinates memorizeMoves(Rectangle player2Position, AbstractMap map) {
+		Coordinates vectors= transfer_strategy.memorizePlayerMoves(this.position, player2Position, map);
 		
 		//Change les coordonnes du perso
 		position.setCoordinates(position.getX() + vectors.getX(), position.getY() + vectors.getY());
