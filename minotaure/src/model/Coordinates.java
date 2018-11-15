@@ -16,5 +16,7 @@ public class Coordinates {
 		this.x= newPosition.getX();
 		this.y= newPosition.getY();
 	}
+	
+	public void setCoordinates(int x, int y) {this.x= x; this.y= y;}
 
 }

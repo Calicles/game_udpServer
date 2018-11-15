@@ -1,5 +1,6 @@
 package model;
 
+import services.Pythagore;
 import type.AbstractMap;
 import type.AbstractTransfer;
 
@@ -69,11 +70,7 @@ public class Player_transferStrategy_std extends AbstractTransfer {
 	}
 	
 	private boolean isPlayerNext(Rectangle position, Rectangle player2Position) {
-		//Pythagore
-		double space= Math.sqrt( Math.pow( position.getX() - player2Position.getX(), 2) +
-				Math.pow( position.getY() - player2Position.getY(), 2));
-		
-		return space < (position.getWidth() + 4);
+		return Rectangle.isNext(position, player2Position, 4);
 	}
 
 	

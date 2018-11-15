@@ -5,7 +5,6 @@ import type.AbstractTransfer;
 
 public class IA_transfertStrategy_std extends AbstractTransfer {
 	
-
 	@Override
 	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition, AbstractMap map) {
 		//l'IA trouve une direction

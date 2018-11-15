@@ -1,3 +1,4 @@
+4 3
 ressources/images/rainbow/face1.png
 ressources/images/rainbow/face2.png
 ressources/images/rainbow/face3.png

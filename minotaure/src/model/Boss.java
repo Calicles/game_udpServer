@@ -10,6 +10,7 @@ public class Boss extends AbstractCharacter_with_transfer {
 		transfer_strategy= new IA_transfertStrategy_std();
 	}
 	
+	
 	public void memorizeMoves(Rectangle playerPosition, AbstractMap map) {
 		transfer_strategy.memorizeBossMoves(this.position, playerPosition, map);	
 	}

@@ -8,6 +8,4 @@ public class Player2 extends AbstractCharacter{
 		super(player2Url);
 	}
 
-
-
 }

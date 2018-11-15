@@ -1,5 +1,6 @@
 package type;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -20,17 +21,19 @@ public abstract class AbstractLevel {
 	protected DoubleBoxes scrollBoxes;
 	protected ArrayList<LevelListener> listeners;
 	
-	public AbstractLevel(String playerUrl, String player2Url) {
+	public AbstractLevel(String playerUrl, String player2Url, Dimension screenSize) {
 		player= new Player(playerUrl);
 		player2= new Player2(player2Url);
 		map= new Map();
+		listeners= new ArrayList<>();
+		setScreenSize(screenSize);
 	}
 
 	/**
 	 * initialisation de la représentation numérique de l'écran et du scrolling.
 	 * @param screenSize
 	 */
-	public void setScreenSize(Dimension screenSize) {
+	private void setScreenSize(Dimension screenSize) {
 		int scrollBoxX= screenSize.width / 4;
 		int scrollBoxY= screenSize.height / 4;
 		int width= scrollBoxX * 3;
@@ -44,11 +47,20 @@ public abstract class AbstractLevel {
 	abstract public void update(TransferEvent te);
 	protected abstract void fireUpdate();
 	public abstract Coordinates getBossCoordinates();
+	public void released() {player.movesReleased();}
+	public void playerMovesLeft() {player.movesLeft();}
+	public void playerMovesRight() {player.movesRight();}
+	public void playerMovesUp() {player.movesUp();}
+	public void playerMovesDown() {player.movesDown();}
 
 	public void drawLevel(Graphics g) {
+		Color old= g.getColor();
+		g.setColor(Color.BLACK);
+		g.drawString("Arrivé", 0, 0);
+		g.setColor(old);
+		map.drawMap(g, scrollBoxes.getScreenPosition());
 		player.draw(g, scrollBoxes.getScreenCoordinates());
-		player2.draw(g, scrollBoxes.getScreenCoordinates());
-		map.drawMap(g);
+		player2.drawIfInScreen(g, scrollBoxes.getScreenPosition());
 	}
 	
 	public void scroll(Coordinates scrollingVector) {
@@ -68,6 +80,5 @@ public abstract class AbstractLevel {
 	public void addListener(LevelListener listener) {
 		listeners.add(listener);
 	}
-
 
 }

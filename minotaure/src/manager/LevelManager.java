@@ -35,13 +35,14 @@ public class LevelManager implements Controller, NetworkListener {
 		return null;
 	}
 
-	public void setScreenSize(Dimension screenSize) {
-		level.setScreenSize(screenSize);
+	
+	public void startGame() {
 		level.start();
 	}
+	
 	@Override
-	public void createLevel(int levelType) {
-		this.level= LevelFactory.getLevelInstance(levelType);
+	public void createLevel(int levelType, Dimension screenSize) {
+		this.level= LevelFactory.getLevelInstance(levelType, screenSize);
 		this.server= new NetWork();
 		server.initLine(levelType);
 		server.addListener(this);
@@ -56,28 +57,19 @@ public class LevelManager implements Controller, NetworkListener {
 	}
 
 	@Override
-	public void playerMovesLeft() {
-		// TODO Auto-generated method stub
-
-	}
+	public void released() {level.released();}
+	
+	@Override
+	public void playerMovesLeft() {level.playerMovesLeft();}
 
 	@Override
-	public void playerMovesRight() {
-		// TODO Auto-generated method stub
-
-	}
+	public void playerMovesRight() {level.playerMovesRight();}
 
 	@Override
-	public void playerMovesUp() {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void playerMovesUp() {level.playerMovesUp();}
+	
 	@Override
-	public void playerMovesDown() {
-		// TODO Auto-generated method stub
-
-	}
+	public void playerMovesDown() {level.playerMovesDown();}
 
 	public void addListener(LevelListener listener) {
 		level.addListener(listener);
@@ -99,6 +91,13 @@ public class LevelManager implements Controller, NetworkListener {
 	@Override
 	public void update(TransferEvent te) {
 		level.update(te);
+		
+	}
+
+
+	@Override
+	public void updateEvent(TransferEvent te) {
+		// TODO Auto-generated method stub
 		
 	}
 

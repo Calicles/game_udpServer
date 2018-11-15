@@ -17,7 +17,7 @@ public abstract class AbstractTransfer {
 	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {return null;}
 	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition2, AbstractMap map) {}
 	
-	protected Coordinates adaptVectorsBySolidTiles(Rectangle position, AbstractMap map) {
+	public Coordinates adaptVectorsBySolidTiles(Rectangle position, AbstractMap map) {
 		Rectangle tile;
 		int playerX= position.getX(), playerY= position.getY(), x, y;
 		

@@ -2,10 +2,9 @@ package view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 import javax.swing.border.Border;
 
 import model.NetEvent;
@@ -13,7 +12,7 @@ import model.TransferEvent;
 import type.NetworkListener;
 
 @SuppressWarnings("serial")
-public class JInfoPanel extends JPanel implements NetworkListener {
+public class JInfoPanel extends JLabel implements NetworkListener {
 	
 	private boolean inGame;
 	private Dimension size;
@@ -24,19 +23,9 @@ public class JInfoPanel extends JPanel implements NetworkListener {
 		size= dimension;
 		this.setBackground(Color.BLACK);
 		this.setBorder(border);
+		updateEvent(null);
 	}
 	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Color old= g.getColor();
-		g.setColor(Color.WHITE);
-		if(!inGame) {
-			g.drawString("En attente d'une connexion", 0, 0);
-		}else
-			g.drawString("Connecté", 0, 0);
-		g.setColor(old);
-	}
 	
 	@Override
 	public Dimension getPreferredSize() {
@@ -48,6 +37,16 @@ public class JInfoPanel extends JPanel implements NetworkListener {
 		if(ne.getLineState()) inGame= true;
 		else inGame= false;
 	}
+
+	@Override
+	public void updateEvent(TransferEvent te) {
+		if(!inGame)
+			this.setText("En attente de connexion");
+		else
+			this.setText("Connecxion établie");
+		
+	}
+
 
 	@Override
 	public void update(TransferEvent te) {

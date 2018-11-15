@@ -7,5 +7,6 @@ public interface NetworkListener {
 	
 	void updateState(NetEvent ne);
 	void update(TransferEvent te);
+	void updateEvent(TransferEvent te);
 
 }

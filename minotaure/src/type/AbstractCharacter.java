@@ -8,6 +8,7 @@ import model.Coordinates;
 import model.Rectangle;
 import services.Character_reader;
 import services.Coordinates_translator;
+import services.Pythagore;
 
 public abstract class AbstractCharacter {
 	
@@ -31,6 +32,7 @@ public abstract class AbstractCharacter {
 	public int getAnimIndex() {return animIndex;}
 	public Coordinates getCoordinates() {return position.getCoordinates();}
 	public BufferedImage getImage() {return currentImage;}
+	public int getDiagonal() {return position.getDiagonal();}
 	
 	public void setCoordinates(Coordinates newPosition) {
 		position.setCoordinates(newPosition.getX(), newPosition.getY());
@@ -40,6 +42,10 @@ public abstract class AbstractCharacter {
 		Coordinates byScreen= Coordinates_translator.toScreenCoordinates(position.getCoordinates(), 
 				screen);
 		g.drawImage(currentImage, byScreen.getX(), byScreen.getY(), null);
+	}
+	
+	public void drawIfInScreen(Graphics g, Rectangle screen) {
+		
 	}
 	
 

@@ -15,6 +15,7 @@ public class JStartMenu extends JPanel {
 	LevelChoiceButton levelClientButton, levelHostButton;
 
 	private boolean userChoosed;
+	private Dimension screenSize;
 
 	public JStartMenu(Dimension screenDimension) {
 		JLabel label= new JLabel();
@@ -24,6 +25,7 @@ public class JStartMenu extends JPanel {
 		levelHostButton= new LevelChoiceButton("Hôte");
 		levelClientButton= new LevelChoiceButton("Client");
 		userChoosed= false;
+		screenSize= screenDimension;
 		
 		this.setPreferredSize(screenDimension);
 		this.setLayout(new FlowLayout());
@@ -39,12 +41,12 @@ public class JStartMenu extends JPanel {
 	public void setButtonListener(Controller controller) {
 		
 		levelHostButton.addActionListener((e)->{
-			controller.createLevel(1);
+			controller.createLevel(1, screenSize);
 			userChoosed= true;
 		});
 		
 		levelClientButton.addActionListener((e)->{
-			controller.createLevel(2);
+			controller.createLevel(2, screenSize);
 			userChoosed= true;
 		});
 	}

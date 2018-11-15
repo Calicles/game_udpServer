@@ -3,29 +3,17 @@ package network;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.ArrayList;
 
 import model.Coordinates;
 import model.TransferEvent;
 import services.Byte_translator;
-import services.IP_reader;
 import type.AbstractServer;
-import type.NetworkListener;
 
 public class Server extends AbstractServer {
-	
-	private String ipAdress;
-	private int port;
-	private final long SLEEP= 1000/24;
-	private Coordinates playerPosition, bossPosition;
-	private ArrayList<NetworkListener> listeners;
+
 	
 	public Server() {
-		String[] socket= IP_reader.readSocket().split(" ");
-		this.ipAdress= socket[0];
-		this.port= Integer.parseInt(socket[1]);
-		this.playerPosition= null;
-		this.bossPosition= null;
+		super();
 	}
 
 	public void run(Coordinates playerPosition, Coordinates bossPosition) {

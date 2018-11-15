@@ -20,6 +20,7 @@ public class JScreen extends JPanel implements LevelListener {
 	public JScreen(Controller controller, Dimension screenDimension) {
 		this.controller= controller;
 		this.signupLevel();
+		controller.startGame();
 	}
 	
 	@Override 
@@ -35,37 +36,11 @@ public class JScreen extends JPanel implements LevelListener {
 		controller.addListener(this);
 	}
 	
-	
-	
-	
-	private class UserListener implements KeyListener{
-
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyReleased(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void keyTyped(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-
-
-
-
 	@Override
 	public void update(TransferEvent te) {
-		// TODO Auto-generated method stub
+		this.repaint();
 		
 	}
+
 
 }

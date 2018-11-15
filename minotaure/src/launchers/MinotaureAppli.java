@@ -20,11 +20,14 @@ public class MinotaureAppli {
 		
 		frame= new Frame(levelManager, screenSize);
 
-		while(!frame.getUserChoosed());
-		
-		levelManager.setScreenSize(screenSize);
+		while(!frame.getUserChoosed()) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+		}
 		frame.loadScreen();
-
 	}
+
+	
 
 }

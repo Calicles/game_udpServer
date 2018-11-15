@@ -7,27 +7,25 @@ import java.awt.Dimension;
  * @author antoine
  *
  */
-public class DoubleBoxes extends Rectangle {
+public class DoubleBoxes {
 	
+	private Rectangle screen;
 	private Rectangle scrollBox;
 	
 	public DoubleBoxes(Coordinates coordinates, Dimension screenSize, Rectangle scrollBox) {
-		super(coordinates, screenSize.width, screenSize.height);
+		screen= new Rectangle(coordinates, screenSize.width, screenSize.height);
 		this.scrollBox= scrollBox;
 	}
 
-	public Rectangle getScreenPosition() {return new Rectangle(new Coordinates(this.x, this.y),
-			this.width, this.height);
-	}
-	public Coordinates getScreenCoordinates() {return super.getCoordinates();}
+	public Rectangle getScreenPosition() {return screen;}
+	public Coordinates getScreenCoordinates() {return screen.getCoordinates();}
 
 	/**
 	 * Créer le scrolling en suivant les vecteurs du joueur.
 	 * @param scrollingVector
 	 */
 	public void scroll(Coordinates scrollingVector) {
-		super.setCoordinates(super.getX() + scrollingVector.getX(), 
-				super.getY() + scrollingVector.getY());
+		screen.setCoordinates(scrollingVector);
 		
 		scrollBox.setCoordinates(scrollBox.getX() + scrollingVector.getX(), 
 				scrollBox.getY() + scrollingVector.getY());

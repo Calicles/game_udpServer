@@ -12,10 +12,17 @@ public class Map extends AbstractMap {
 	
 	
 	@Override
-	public void drawMap(Graphics g) {
-		for(int i= 0; i < tiles.length; i++) {
-			for(int j= 0; j > tiles[0].length; j++) {
-				g.drawImage(tileSet.get(tiles[i][j]), j * tile_width, i * tile_height, null);
+	public void drawMap(Graphics g, Rectangle screen) {
+		int x, y, endX, endY, xTile, yTile;
+		x= screen.getX() / tile_width;
+		endX= screen.getEndX() / tile_width;
+		y= screen.getY() / tile_height;
+		endY= screen.getEndY() / tile_height;
+		for(int i= y; i < endY; i++) {
+			for(int j= x; j < endX; j++){
+				xTile= (x * tile_width) - screen.getX();
+				yTile= (y * tile_height) - screen.getY();
+				g.drawImage(tileSet.get(tiles[i][j]), xTile + j*tile_width, yTile + i*tile_height, null);
 			}
 		}
 	}

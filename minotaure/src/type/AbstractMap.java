@@ -33,7 +33,7 @@ public abstract class AbstractMap {
 	public int getTileWidth() {return tile_width;}
 	public int getTileHeight() {return tile_height;}
 	
-	abstract public void drawMap(Graphics g);
+	abstract public void drawMap(Graphics g, Rectangle screen);
 	
 	public static boolean isSolidTiles(int tile_num) {return tile_num >= solidTile;}
 

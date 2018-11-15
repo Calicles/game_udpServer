@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import type.AbstractLevel;
@@ -14,8 +15,8 @@ public class LevelHost extends AbstractLevel {
 	
 	private boolean inGame;
 	
-	public LevelHost() {
-		super("ressources/player/set.txt", "");
+	public LevelHost(Dimension screenSize) {
+		super("ressources/player/set.txt", "ressources/player/set.txt", screenSize);
 		boss= new Boss("ressources/boss/set.txt");
 		inGame= false;
 	}
@@ -30,7 +31,7 @@ public class LevelHost extends AbstractLevel {
 	
 	public void drawLevel(Graphics g) {
 		super.drawLevel(g);
-		boss.draw(g, scrollBoxes.getScreenCoordinates());
+		boss.drawIfInScreen(g, scrollBoxes.getScreenPosition());
 	}
 
 	private void runGameLoop() {
@@ -81,7 +82,7 @@ public class LevelHost extends AbstractLevel {
 		}
 	}
 
-	public void levelstart(){
+	public void start(){
 		inGame= true;
 		runGameLoop();
 	}
