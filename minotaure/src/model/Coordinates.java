@@ -19,4 +19,8 @@ public class Coordinates {
 	
 	public void setCoordinates(int x, int y) {this.x= x; this.y= y;}
 
+	public boolean isZero() {
+		return x != 0 && y != 0;
+	}
+
 }

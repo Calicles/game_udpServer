@@ -34,12 +34,7 @@ public abstract class AbstractLevel {
 	 * @param screenSize
 	 */
 	private void setScreenSize(Dimension screenSize) {
-		int scrollBoxX= screenSize.width / 4;
-		int scrollBoxY= screenSize.height / 4;
-		int width= scrollBoxX * 3;
-		int height= scrollBoxY * 3;
-		Rectangle rec= new Rectangle(new Coordinates(scrollBoxX, scrollBoxY), width, height);
-		scrollBoxes= new DoubleBoxes(new Coordinates(0, 0), screenSize, rec);
+		scrollBoxes= new DoubleBoxes(new Coordinates(0, 0), screenSize);
 	}
 	
 	public Coordinates getPlayerCoordinates() {return player.getCoordinates();}
@@ -55,26 +50,73 @@ public abstract class AbstractLevel {
 
 	public void drawLevel(Graphics g) {
 		Color old= g.getColor();
-		g.setColor(Color.BLACK);
-		g.drawString("Arrivé", 0, 0);
-		g.setColor(old);
+
+
 		map.drawMap(g, scrollBoxes.getScreenPosition());
 		player.draw(g, scrollBoxes.getScreenCoordinates());
 		player2.drawIfInScreen(g, scrollBoxes.getScreenPosition());
+		
+		g.setColor(Color.BLACK);
+		g.drawRect(scrollBoxes.getScrollX(), scrollBoxes.getScrollY(), scrollBoxes.getScrollWidth(), scrollBoxes.getScrollHeight());
+		g.setColor(old);
 	}
 	
 	public void scroll(Coordinates scrollingVector) {
-		if(!isScreenOnBoard() && isPlayerOnScrollBox())
-			scrollBoxes.scroll(scrollingVector);
+		if(!scrollingVector.isZero()) {
+			if(scrollingVector.getX() < 0 && isPlayerOnScrollLeft()) {
+				checkScrollLeft(scrollingVector);
+				scrollBoxes.scroll(scrollingVector);
+			}else if(scrollingVector.getX() > 0 && isPlayerOnScrollRight()) {
+				checkScrollRight(scrollingVector);
+				scrollBoxes.scroll(scrollingVector);
+			}else if(scrollingVector.getY() < 0 && isPlayerOnScrollUp()) {
+				checkScrollUp(scrollingVector);
+				scrollBoxes.scroll(scrollingVector);
+			}else if(isPLayerOnScrollDown()){
+				checkScrollDown(scrollingVector);
+				scrollBoxes.scroll(scrollingVector);
+			}	
+		}
 	}
 
+	private boolean isPLayerOnScrollDown() {
+		return player.getEndY() == scrollBoxes.getScrollEndy();
+	}
+
+	private boolean isPlayerOnScrollUp() {
+		return player.getY() == scrollBoxes.getScrollY();
+	}
+
+	private boolean isPlayerOnScrollLeft() {
+		return player.getX() == scrollBoxes.getScrollX();
+	}
+
+	private boolean isPlayerOnScrollRight() {
+		return player.getEndX() == scrollBoxes.getScrollEndX();
+	}
+
+	private void checkScrollLeft(Coordinates scrollingVector) {
+		if(scrollBoxes.getScreenX() < 4){
+			scrollingVector.setCoordinates(0 - scrollBoxes.getScreenX(), 0);
+		}	
+	}
 	
-	private boolean isScreenOnBoard() {
-		return map.isScreenOnBoard(scrollBoxes.getScreenPosition());
+	public void checkScrollRight(Coordinates scrollingVector) {
+		if(map.getWidth() - scrollBoxes.getScreenEndX() < 4) {
+			scrollingVector.setCoordinates(map.getWidth() - scrollBoxes.getScreenEndX(), 0);
+		}
 	}
-
-	private boolean isPlayerOnScrollBox() {
-		return scrollBoxes.isPlayerOnScrollBox(player.getPosition());
+	
+	public void checkScrollUp(Coordinates scrollingVector) {
+		if(scrollBoxes.getScreenEndY() < 4) {
+			scrollingVector.setCoordinates(0, 0 - scrollBoxes.getScreenY());
+		}
+	}
+	
+	public void checkScrollDown(Coordinates scrollingVector) {
+		if(map.getHeight() - scrollBoxes.getScreenEndY() < 4) {
+			scrollingVector.setCoordinates(0, map.getHeight() - scrollBoxes.getScreenEndY());
+		}
 	}
 
 	public void addListener(LevelListener listener) {

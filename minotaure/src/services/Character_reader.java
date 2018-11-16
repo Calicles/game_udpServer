@@ -22,13 +22,17 @@ public class Character_reader {
 			String line;
 			int directionNumber= Integer.parseInt(bounds[0]);
 			int imagePerDirection= Integer.parseInt(bounds[1]);
-			BufferedImage[] tab= new BufferedImage[imagePerDirection];
+			BufferedImage[] tab= null;
 			
 			for(int i= 0; i < directionNumber; i++) {
+				
+				tab= new BufferedImage[imagePerDirection];
+				
 				for(int j= 0; j < imagePerDirection; j++) {
 					line= reader.readLine();
 					tab[j]= ImageIO.read(new File(line));
 				}
+				
 				map.put(i, tab);
 			}
 			line= reader.readLine();

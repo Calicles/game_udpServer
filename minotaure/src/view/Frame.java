@@ -59,7 +59,7 @@ public class Frame extends JFrame {
 
 		@Override
 		public void keyPressed(KeyEvent ke) {
-			if(ke.getKeyCode() == KeyEvent.VK_LEFT) {System.out.println("left InframeListener");
+			if(ke.getKeyCode() == KeyEvent.VK_LEFT) {
 				controller.playerMovesLeft();
 			}else if(ke.getKeyCode() == KeyEvent.VK_RIGHT)
 				controller.playerMovesRight();

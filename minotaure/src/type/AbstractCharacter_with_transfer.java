@@ -19,35 +19,35 @@ public abstract class AbstractCharacter_with_transfer extends AbstractCharacter 
 		if(vectors.getX() != 0 || vectors.getY() != 0) {
 			if(vectors.getX() != 0) {
 				if(vectors.getX() < 0) {
-					direction= 0;
-				}else{
 					direction= 1;
+				}else{
+					direction= 2;
 				}
 			}else {
 				if(vectors.getY() < 0) {
-					direction= 2;
-				}else {
 					direction= 3;
+				}else {
+					direction= 0;
 				}
-				updateIndex();
 			}
+			currentImage= animation.get(direction)[animIndex];
 			updateIndex();
-			currentImage= animation.get(direction)[++animIndex];
 		}
 	}
 	
 	public void updateIndex() {
 		tempo++;
-		if(tempo % 4 == 0)
+		if(tempo % 4 == 0) {
 			animIndex++;
+			if(tempo >= 100)
+				tempo= 0;
+		}
 		if(animIndex >= animation.get(0).length)
 			animIndex= 0;
-		if(tempo >= 100)
-			tempo= 0;
 	}
 
 	public void animationStoped() {
+		currentImage= animation.get(direction)[1];
 		animIndex= 0;
-		currentImage= animation.get(direction)[animIndex];
 	}
 }

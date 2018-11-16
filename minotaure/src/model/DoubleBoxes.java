@@ -12,29 +12,36 @@ public class DoubleBoxes {
 	private Rectangle screen;
 	private Rectangle scrollBox;
 	
-	public DoubleBoxes(Coordinates coordinates, Dimension screenSize, Rectangle scrollBox) {
+	public DoubleBoxes(Coordinates coordinates, Dimension screenSize) {
 		screen= new Rectangle(coordinates, screenSize.width, screenSize.height);
-		this.scrollBox= scrollBox;
+		Coordinates scroll= new Coordinates(screenSize.width / 3, screenSize.height / 3);
+		this.scrollBox= new Rectangle(scroll, screen.width / 3, screen.height /3);
 	}
 
 	public Rectangle getScreenPosition() {return screen;}
 	public Coordinates getScreenCoordinates() {return screen.getCoordinates();}
+	public int getScreenX() {return screen.getX();}
+	public int getScreenEndX() {return screen.getEndX();}
+	public int getScreenY() {return screen.getY();}
+	public int getScreenEndY() {return screen.getY();}
+	public int getScrollX() {return scrollBox.getX();}
+	public int getScrollEndX() {return scrollBox.getEndX();}
+	public int getScrollY() {return scrollBox.getY();}
+	public int getScrollEndy() {return scrollBox.getEndY();}
+	public int getScrollWidth() {return scrollBox.getWidth();}
+	public int getScrollHeight() {return scrollBox.getHeight();}
 
 	/**
 	 * Créer le scrolling en suivant les vecteurs du joueur.
 	 * @param scrollingVector
 	 */
 	public void scroll(Coordinates scrollingVector) {
-		screen.setCoordinates(scrollingVector);
+		screen.setCoordinates(screen.getX() + scrollingVector.getX(),
+				screen.getY()+ scrollingVector.getY());
 		
 		scrollBox.setCoordinates(scrollBox.getX() + scrollingVector.getX(), 
 				scrollBox.getY() + scrollingVector.getY());
 		
-	}
-
-	public boolean isPlayerOnScrollBox(Rectangle position) {
-		//TODO
-		return false;	
 	}
 
 }

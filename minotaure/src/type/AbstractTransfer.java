@@ -109,9 +109,9 @@ public abstract class AbstractTransfer {
 	public Rectangle isSolidTileOnRoad(Rectangle surface, AbstractMap map) {
 		int[][] tiles= map.getTiles();
 		
-		for(int i= surface.getY(); i <= surface.getHeight(); i++) {
+		for(int i= surface.getY(); i < surface.getHeight(); i++) {
 			
-			for(int j= surface.getX(); j <= surface.getWidth(); j++) {
+			for(int j= surface.getX(); j < surface.getWidth(); j++) {
 				if(AbstractMap.isSolidTiles(tiles[i][j])){
 					int x= j * map.getTileWidth();
 					int y= i * map.getTileHeight();

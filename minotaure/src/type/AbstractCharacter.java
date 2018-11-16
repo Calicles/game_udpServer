@@ -33,6 +33,10 @@ public abstract class AbstractCharacter {
 	public Coordinates getCoordinates() {return position.getCoordinates();}
 	public BufferedImage getImage() {return currentImage;}
 	public int getDiagonal() {return position.getDiagonal();}
+	public int getX() {return position.getX();}
+	public int getEndX() { return position.getEndX();}
+	public int getY() {return position.getY();}
+	public int getEndY() {return position.getEndY();}
 	
 	public void setCoordinates(Coordinates newPosition) {
 		position.setCoordinates(newPosition.getX(), newPosition.getY());
