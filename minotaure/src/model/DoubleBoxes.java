@@ -25,7 +25,7 @@ public class DoubleBoxes {
 	public int getScreenX() {return screen.getX();}
 	public int getScreenEndX() {return screen.getEndX();}
 	public int getScreenY() {return screen.getY();}
-	public int getScreenEndY() {return screen.getY();}
+	public int getScreenEndY() {return screen.getEndY();}
 	public int getScrollX() {return scrollBox.getX();}
 	public int getScrollEndX() {return scrollBox.getEndX();}
 	public int getScrollY() {return scrollBox.getY();}

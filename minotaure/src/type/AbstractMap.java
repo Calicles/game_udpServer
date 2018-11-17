@@ -23,7 +23,7 @@ public abstract class AbstractMap {
 		
 		tile_width= tileSet.get(0).getWidth();
 		tile_height= tileSet.get(0).getHeight();
-		size= new Dimension(tile_width * tiles.length, tile_height * tiles[0].length);
+		size= new Dimension(tile_width * tiles[0].length, tile_height * tiles.length);
 	}
 	
 	public int getWidth() {return size.width;}
