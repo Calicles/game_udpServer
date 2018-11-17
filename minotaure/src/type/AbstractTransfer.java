@@ -19,17 +19,16 @@ public abstract class AbstractTransfer {
 	
 	public Coordinates adaptVectorsBySolidTiles(Rectangle position, AbstractMap map) {
 		Rectangle tile;
-		int playerX= position.getX(), playerY= position.getY(), x, y;
+		int playerX= position.getX(), playerY= position.getY();
 		
 		//On cherche le vecteur
 		if(xVector != 0) {
-			x= playerX + xVector;
 			
 			//On cherche la direction
 			if(xVector < 0) {
 				
 				//si au bord de la map on annule ou réduit le vecteur
-				if(playerX < map.getTileWidth() && x <= 0) {
+				if(playerX < map.getTileWidth() && playerX < 4) {
 					xVector= 0 - playerX;
 					
 				//Si au bord d'une tuile solide idem
@@ -37,25 +36,24 @@ public abstract class AbstractTransfer {
 					xVector= tile.getEndX() - playerX;
 				}
 			}else {
-				if(playerX > map.getWidth() - map.getTileWidth()) {
-					xVector= map.getWidth() - playerX;
-				}else {
-					if((tile= checkRightTiles(position, map)) != null) {
+				if(position.getEndX() > map.getWidth() - map.getTileWidth()) {
+					xVector= map.getWidth() - position.getEndX();
+				}else if((tile= checkRightTiles(position, map)) != null) {
 						xVector= tile.getX() - (position.getEndX());
-					}
 				}
 			}
 		}else if(yVector != 0) {
-			y= position.getY() + yVector;
+
 			if(yVector < 0) {
-				if(playerY < map.getTileHeight() && y <= 0) {
+				if(playerY < map.getTileHeight() && playerY < 4) {
 					yVector= 0 - playerY;
 				}else if((tile= checkOnUpTiles(position, map)) != null){
 					yVector= tile.getEndY() - playerY;
 				}
 			}else {
-				if(playerY > map.getHeight() - map.getTileHeight() && y >= map.getHeight()) {
-					yVector= map.getHeight() - playerY;
+				if(position.getEndY() > map.getHeight() - map.getTileHeight() && position.getEndY() >= map.getHeight()) {
+
+					yVector= map.getHeight() - position.getEndY();
 				}else if((tile= checkOnDownTiles(position, map)) != null) {
 					yVector= tile.getEndY() - playerY;
 				}

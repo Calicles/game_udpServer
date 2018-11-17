@@ -13,16 +13,25 @@ public class Map extends AbstractMap {
 	
 	@Override
 	public void drawMap(Graphics g, Rectangle screen) {
-		int x, y, endX, endY, xTile, yTile;
-		x= screen.getX() / tile_width;
-		endX= screen.getEndX() / tile_width;
-		y= screen.getY() / tile_height;
-		endY= screen.getEndY() / tile_height;
-		for(int i= y; i < endY; i++) {
-			for(int j= x; j < endX; j++){
-				xTile= (x * tile_width) - screen.getX();
-				yTile= (y * tile_height) - screen.getY();
-				g.drawImage(tileSet.get(tiles[i][j]), xTile + j*tile_width, yTile + i*tile_height, null);
+		int row, iMax, col, jMax, xdepart, ydepart, x, y;
+		
+		row= screen.getY() / tile_height;
+		col= screen.getX() / tile_width;
+		
+		iMax= screen.getWidth() / tile_height;
+		jMax= screen.getHeight() / tile_width;
+		
+		xdepart= col * tile_width - screen.getX();
+		ydepart= row * tile_height - screen.getY();
+		
+		if(screen.getEndX() % tile_width != 0) jMax++;
+		if(screen.getEndY() % tile_height != 0) iMax++;
+		
+		for(int i= 0; i < iMax; i++) {
+			for(int j= 0; j < jMax; j++){
+				x= xdepart + j * tile_width;
+				y= ydepart + i * tile_height;
+				g.drawImage(tileSet.get(tiles[row + i][col + j]), x, y, null);
 			}
 		}
 	}
