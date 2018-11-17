@@ -14,9 +14,9 @@ public class Player_transferStrategy_std extends AbstractTransfer {
 	
 	@Override
 	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {
-		Coordinates vectors= adaptVectorsBySolidTiles(position, map);
-		if(isPlayerNext(position, player2Position))
-			adaptVectorsByPlayer2(position, player2Position, vectors);
+		Coordinates vectors= adaptVectors(position, map);
+/**		if(isPlayerNext(position, player2Position))
+			adaptVectorsByPlayer2(position, player2Position, vectors);**/
 		return vectors;
 	}
 	

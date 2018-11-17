@@ -36,9 +36,9 @@ public class LevelHost extends AbstractLevel {
 
 	private void runGameLoop() {
 		gameLoop= new Thread(()-> {
-			
+
 			before= System.currentTimeMillis();
-			while(inGame) {
+			while(inGame) {	
 				loop();
 				after= System.currentTimeMillis();
 				sleep();
@@ -64,7 +64,7 @@ public class LevelHost extends AbstractLevel {
 	}
 
 	private void loop() {
-		Coordinates vectors= player.memorizeMoves(player2.getPosition(), map);
+		Coordinates vectors= player.memorizePlayerMoves(player2.getPosition(), map);
 		scroll(vectors);
 		boss.memorizeMoves(player.getPosition(), map);
 		
