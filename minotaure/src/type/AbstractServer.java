@@ -22,7 +22,7 @@ public abstract class AbstractServer implements LevelListener{
 		this.port= Integer.parseInt(socket[1]);
 		this.playerPosition= null;
 		this.bossPosition= null;
-		
+		System.out.println("in AbstractServe ip:  "+ipAdress+"    port:  "+port);
 	}
 	
 	public void run(Coordinates playerPosition, Coordinates bossPosition) {}

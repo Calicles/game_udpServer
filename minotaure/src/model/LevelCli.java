@@ -14,6 +14,13 @@ public class LevelCli extends AbstractLevel {
 		boss= null;
 	}
 	
+	@Override
+	public Coordinates getBossCoordinates() {
+		if(boss != null)
+			return boss.getCoordinates();
+		return null;
+	}
+	
 	public void loop() {
 		Coordinates vectors= player.memorizePlayerMoves(null, map);//TODO Change
 		scroll(vectors);
@@ -59,12 +66,6 @@ public class LevelCli extends AbstractLevel {
 		for(LevelListener l:listeners) {
 			l.update(new TransferEvent(player.getCoordinates(), null, null));
 		}
-	}
-
-	@Override
-	public Coordinates getBossCoordinates() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

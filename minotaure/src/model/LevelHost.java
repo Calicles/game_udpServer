@@ -17,7 +17,7 @@ public class LevelHost extends AbstractLevel {
 	
 	public LevelHost(Dimension screenSize) {
 		super("ressources/player/set.txt", screenSize);
-		boss= null;
+		boss= new Boss("ressources/boss/set.txt");
 		inGame= false;
 	}
 	
@@ -64,7 +64,10 @@ public class LevelHost extends AbstractLevel {
 	}
 
 	private synchronized void loop() {
-		Coordinates vectors= player.memorizePlayerMoves(player2.getPosition(), map);
+		Rectangle player2coor;
+		if(player2 != null) player2coor= player2.getPosition();
+		else player2coor= null;
+		Coordinates vectors= player.memorizePlayerMoves(player2coor, map);
 		scroll(vectors);
 		boss.memorizeMoves(player.getPosition(), map);
 		checkCollision();

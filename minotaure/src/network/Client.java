@@ -8,8 +8,8 @@ import services.Byte_translator;
 
 public class Client extends Server {
 	
-	public Client() {
-		super();
+	public Client(int num) {
+		super(num);
 		
 	}
 	
@@ -49,11 +49,11 @@ public class Client extends Server {
 			
 			return null;
 		}
-
+/**
 		@Override
 		protected synchronized void fireUpdate(DatagramPacket packet) {
 			//TO DO
 			
-		}
+		}**/
 	}
 }

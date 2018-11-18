@@ -5,15 +5,19 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import model.Coordinates;
+import model.NetEvent;
 import model.TransferEvent;
 import services.Byte_translator;
 import type.AbstractServer;
+import type.NetworkListener;
 
 public class Server extends AbstractServer {
 
+	protected int threadnum= 0;
 	
-	public Server() {
+	public Server(int num) {
 		super();
+		threadnum = num;
 	}
 
 	public void run(Coordinates playerPosition, Coordinates bossPosition) {
@@ -29,16 +33,17 @@ public class Server extends AbstractServer {
 
 	protected void initServer() {
 			Thread launcher= new Thread(new UD_MachineGun());
-			Thread catcher= new Thread(new UD_Catcher());
+			//Thread catcher= new Thread(new UD_Catcher());
 			launcher.setDaemon(true);
-			catcher.setDaemon(true);
+			//catcher.setDaemon(true);
 			launcher.start();
-			catcher.start();
+			//catcher.start();
 	}
 	
 	protected class UD_MachineGun implements Runnable {
 
 		protected long before, after;
+		protected int nbr=0; //TODO REMOVE for test
 		
 		@Override
 		public void run() {
@@ -52,16 +57,15 @@ public class Server extends AbstractServer {
 					//initialise l'addresse
 					InetAddress address= InetAddress.getByName(ipAdress);
 					DatagramPacket packet;
-					
 					//Créé le paquet à envoyer
-					byte[] buffer= coordinatesToByteArray();
+					byte[] buffer= (++nbr+"").getBytes();//coordinatesToByteArray();
 					packet= new DatagramPacket(buffer, buffer.length, address, port);
 					packet.setData(buffer);
 						
 					launcher.send(packet);
-						
+						//System.out.println("packet: "+new String(packet.getData())+"   in:  "+threadnum);
 					//Met le thread en pause pour envoyer 24 fois par seconde
-					Thread.sleep(SLEEP); //To change créer un delta pour réellement caler le temps
+					Thread.sleep(SLEEP);
 					
 				}catch(Throwable t){}
 				after= System.currentTimeMillis();
@@ -113,9 +117,9 @@ public class Server extends AbstractServer {
 					
 					byte[] buffer= new byte[8196];
 					packet= new DatagramPacket(buffer, buffer.length, address, port);
-					
+					System.out.println("inUD_Catcher");
 					catcher.receive(packet);
-					
+
 					fireUpdate(packet);
 					
 				}catch(Throwable t) {}
@@ -132,8 +136,11 @@ public class Server extends AbstractServer {
 		}
 
 		protected synchronized void fireUpdate(DatagramPacket packet) {
-			//TO DO
-			
+			//TODO CHange
+			NetEvent ne= new NetEvent(true);
+			for(NetworkListener l:listeners) {
+				l.updateState(ne);
+			}
 		}
 		
 		protected void sleep() {
@@ -144,7 +151,6 @@ public class Server extends AbstractServer {
 				}catch(InterruptedException ie) {}
 			}
 		}
-		
 		
 	}
 
