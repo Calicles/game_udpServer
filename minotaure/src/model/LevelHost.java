@@ -63,15 +63,13 @@ public class LevelHost extends AbstractLevel {
 			return 0;
 	}
 
-	private void loop() {
+	private synchronized void loop() {
 		Coordinates vectors= player.memorizePlayerMoves(player2.getPosition(), map);
 		scroll(vectors);
 		boss.memorizeMoves(player.getPosition(), map);
+		checkCollision();
+		fireUpdate();
 		
-		synchronized(this) {
-			checkCollision();
-			fireUpdate();
-		}
 	}
 
 
