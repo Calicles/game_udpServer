@@ -22,9 +22,9 @@ public abstract class AbstractLevel {
 	protected DoubleBoxes scrollBoxes;
 	protected ArrayList<LevelListener> listeners;
 	
-	public AbstractLevel(String playerUrl, String player2Url, Dimension screenSize) {
+	public AbstractLevel(String playerUrl, Dimension screenSize) {
 		player= new Player(playerUrl);
-		player2= new Player2(player2Url);
+		player2= null;
 		map= new Map();
 		listeners= new ArrayList<>();
 		setScreenSize(screenSize);
@@ -40,9 +40,11 @@ public abstract class AbstractLevel {
 	
 	public Coordinates getPlayerCoordinates() {return player.getCoordinates();}
 	public void start() {} 
-	abstract public void update(TransferEvent te);
+	
+	public abstract void update(TransferEvent te);
 	protected abstract void fireUpdate();
 	public abstract Coordinates getBossCoordinates();
+	
 	public void released() {player.movesReleased();}
 	public void playerMovesLeft() {player.movesLeft();}
 	public void playerMovesRight() {player.movesRight();}
@@ -55,7 +57,8 @@ public abstract class AbstractLevel {
 
 		map.drawMap(g, scrollBoxes.getScreenPosition());
 		player.draw(g, scrollBoxes.getScreenCoordinates());
-		player2.drawIfInScreen(g, scrollBoxes.getScreenPosition());
+		if(player2 != null)
+			player2.drawIfInScreen(g, scrollBoxes.getScreenPosition());
 		
 		//TODO REMOVE
 		g.setColor(Color.BLACK);

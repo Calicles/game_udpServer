@@ -1,0 +1,70 @@
+package model;
+
+import java.awt.Dimension;
+
+import type.AbstractLevel;
+import type.LevelListener;
+
+public class LevelCli extends AbstractLevel {
+
+	private Boss_IALess boss;
+	
+	public LevelCli(Dimension screenSize) {
+		super("ressources/player/set.txt", screenSize);
+		boss= null;
+	}
+	
+	public void loop() {
+		Coordinates vectors= player.memorizePlayerMoves(null, map);//TODO Change
+		scroll(vectors);
+		fireUpdate();
+	}
+	
+	@Override
+	public void playerMovesLeft() {
+		super.playerMovesLeft();
+		loop();
+	}
+	@Override
+	public void playerMovesRight() {
+		super.playerMovesRight();
+		loop();
+	}
+	@Override
+	public void playerMovesUp() {
+		super.playerMovesUp();
+		loop();
+	}
+	@Override
+	public void playerMovesDown() {
+		super.playerMovesDown();
+		loop();
+	}
+	@Override
+	public void released() {
+		super.released();
+		fireUpdate();
+	}
+
+	@Override
+	public void update(TransferEvent te) {
+		if(player2 != null) {
+			
+		}else
+			player2= new Player2("ressources/player/set.txt");
+	}
+
+	@Override
+	protected void fireUpdate() {
+		for(LevelListener l:listeners) {
+			l.update(new TransferEvent(player.getCoordinates(), null, null));
+		}
+	}
+
+	@Override
+	public Coordinates getBossCoordinates() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

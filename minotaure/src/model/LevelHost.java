@@ -16,8 +16,8 @@ public class LevelHost extends AbstractLevel {
 	private boolean inGame;
 	
 	public LevelHost(Dimension screenSize) {
-		super("ressources/player/set.txt", "ressources/player/set.txt", screenSize);
-		boss= new Boss("ressources/boss/set.txt");
+		super("ressources/player/set.txt", screenSize);
+		boss= null;
 		inGame= false;
 	}
 	
@@ -75,8 +75,7 @@ public class LevelHost extends AbstractLevel {
 
 	protected void fireUpdate() {
 		for(LevelListener l:listeners) {
-			l.update(new TransferEvent(player.getCoordinates(), 
-					player2.getCoordinates(), boss.getCoordinates()));
+			l.update(new TransferEvent(player.getCoordinates(), null, null));
 		}
 	}
 
@@ -86,7 +85,10 @@ public class LevelHost extends AbstractLevel {
 	}
 	
 	public void update(TransferEvent te) {
-		player2.setCoordinates(te.getNewPlayerPosition());
+		if(player != null) {
+			player2.setCoordinates(te.getNewPlayerPosition());
+		}else
+			player2= new Player2("ressources/player/set.txt");
 	}
 
 

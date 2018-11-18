@@ -27,7 +27,7 @@ public class Server extends AbstractServer {
 		this.bossPosition= te.getNewBossPosition();
 	}
 
-	private void initServer() {
+	protected void initServer() {
 			Thread launcher= new Thread(new UD_MachineGun());
 			Thread catcher= new Thread(new UD_Catcher());
 			launcher.setDaemon(true);
@@ -36,9 +36,9 @@ public class Server extends AbstractServer {
 			catcher.start();
 	}
 	
-	private class UD_MachineGun implements Runnable {
+	protected class UD_MachineGun implements Runnable {
 
-		private long before, after;
+		protected long before, after;
 		
 		@Override
 		public void run() {
@@ -74,7 +74,7 @@ public class Server extends AbstractServer {
 		/**
 		 * met le thrad en pause
 		 */
-		private void sleep() {
+		protected void sleep() {
 			long delta= after - before;
 			if(delta < SLEEP) {
 				try {
@@ -83,7 +83,7 @@ public class Server extends AbstractServer {
 			}
 		}
 
-		private byte[] coordinatesToByteArray() {
+		protected byte[] coordinatesToByteArray() {
 			byte[] res= new byte[Integer.SIZE * 4];
 			byte[] bytes1= Byte_translator.toByteArray(playerPosition);
 			byte[] bytes2= Byte_translator.toByteArray(bossPosition);
@@ -96,9 +96,9 @@ public class Server extends AbstractServer {
 		
 	}
 	
-	private class UD_Catcher implements Runnable{
+	protected class UD_Catcher implements Runnable{
 
-		private long before, after;
+		protected long before, after;
 		
 		@Override
 		public void run() {
@@ -126,17 +126,17 @@ public class Server extends AbstractServer {
 			
 		}
 		
-		private Coordinates byteArrayToCoordinates(byte[] bytes) {
+		protected Coordinates byteArrayToCoordinates(byte[] bytes) {
 			
 			return null;
 		}
 
-		private synchronized void fireUpdate(DatagramPacket packet) {
+		protected synchronized void fireUpdate(DatagramPacket packet) {
 			//TO DO
 			
 		}
 		
-		private void sleep() {
+		protected void sleep() {
 			long delta= after - before;
 			if(delta < SLEEP) {
 				try {
