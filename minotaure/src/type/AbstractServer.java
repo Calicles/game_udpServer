@@ -10,7 +10,8 @@ public abstract class AbstractServer implements LevelListener{
 	protected String ipAdress;
 	protected int port;
 	
-	protected final long SLEEP= 1000/24;
+	protected final long SLEEP= 1000/24; 
+	protected long before, after;
 	protected Coordinates playerPosition, bossPosition;
 	
 	protected ArrayList<NetworkListener> listeners;
@@ -33,6 +34,21 @@ public abstract class AbstractServer implements LevelListener{
 	
 	public void removeListener(NetworkListener listener) {
 		listeners.remove(listener);
+	}
+	
+	
+	protected void sleep() {
+		long delta= after - before;
+		if(delta < SLEEP) {
+			try {
+				Thread.sleep(SLEEP - delta);
+			}catch(InterruptedException ie) {}
+		}
+	}
+	
+	protected synchronized void print(String s, byte[] data) {
+		String msg= new String(data);
+		System.out.println(s+"    "+msg);
 	}
 
 }

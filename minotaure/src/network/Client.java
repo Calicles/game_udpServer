@@ -1,25 +1,36 @@
 package network;
 
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 import model.Coordinates;
+import model.NetEvent;
 import model.TransferEvent;
 import services.Byte_translator;
+import type.AbstractServer;
+import type.NetworkListener;
 
-public class Client extends Server {
+public class Client extends AbstractServer {
 	
-	public Client(int num) {
-		super(num);
+	public Client() {
+		super();
 		
 	}
 	
-	@Override
+	public void run(Coordinates playerPosition, Coordinates bossPosition) {
+		this.playerPosition= playerPosition;
+		this.bossPosition= bossPosition;
+		initServer();
+	}
+	
+
 	public void initServer() {
-		Thread launcher= new Thread(new UD_MachineGunCli());
-		Thread catcher= new Thread(new UD_CatcherCli());
-		launcher.setDaemon(true);
+		//Thread launcher= new Thread(new UD_MachineGunCli());
+		Thread catcher= new Thread(new UD_Catcher());
+		//launcher.setDaemon(true);
 		catcher.setDaemon(true);
-		launcher.start();
+		//launcher.start();
 		catcher.start();
 	}
 	
@@ -28,32 +39,57 @@ public class Client extends Server {
 		
 	}
 	
-	private class UD_MachineGunCli extends UD_MachineGun {
-		
+	protected class UD_Catcher implements Runnable{
 		
 		@Override
-		protected byte[] coordinatesToByteArray() {
-			byte[] bytes1= Byte_translator.toByteArray(playerPosition);
+		public void run() {
 			
-			return bytes1; 
+			before= System.currentTimeMillis();
+			while(true) {
+					
+				try(DatagramSocket catcher= new DatagramSocket()){
+					
+					InetAddress address= InetAddress.getByName(ipAdress);
+					DatagramPacket packet, packet2;
+					
+					byte[] buffer= "allo".getBytes();
+					packet= new DatagramPacket(buffer, buffer.length, address, port);
+					
+					packet.setData(buffer);
+					
+					catcher.send(packet);
+					
+					byte[] buffer2= new byte[8192];
+					
+					packet2= new DatagramPacket(buffer2, buffer2.length, address, port);
+					
+					catcher.receive(packet2);
+					
+					byte[] data= packet2.getData();
+					print("in client", data);//TODO REMOVE
+
+					fireUpdate(packet);
+					
+				}catch(Throwable t) {System.out.println(t);}
+				after= System.currentTimeMillis();
+				sleep();
+				before= System.currentTimeMillis();
+			}
+			
 		}
 		
-	}
-	
-	
-	private class UD_CatcherCli extends UD_Catcher {
-		
-		
-		@Override
 		protected Coordinates byteArrayToCoordinates(byte[] bytes) {
 			
 			return null;
 		}
-/**
-		@Override
+
 		protected synchronized void fireUpdate(DatagramPacket packet) {
-			//TO DO
-			
-		}**/
+			//TODO CHange
+			NetEvent ne= new NetEvent(true);
+			for(NetworkListener l:listeners) {
+				l.updateState(ne);
+			}
+		}
+		
 	}
 }
