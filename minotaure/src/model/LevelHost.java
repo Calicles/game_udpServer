@@ -88,9 +88,10 @@ public class LevelHost extends AbstractLevel {
 	}
 	
 	public void update(TransferEvent te) {
-		if(player != null) {
+		System.out.println("inupdateLelveHost");
+		if(te.getNewPlayerPosition() != null && player2 != null) {
 			player2.setCoordinates(te.getNewPlayerPosition());
-		}else {
+		}else if (te.getNewPlayerPosition() != null) {
 			player2= new Player2("ressources/player/set.txt");
 			player2.setCoordinates(te.getNewPlayerPosition());
 		}

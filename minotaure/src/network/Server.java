@@ -59,6 +59,7 @@ public class Server extends AbstractServer {
 					launcher.receive(packet);
 	
 					fireUpdate(packet.getData());
+					//print("afterUpdate",null);
 					//TODO RMOVE
 					//print("in server !!reçu du client:   "+packet.getAddress()+"p: "+packet.getPort()+"  ",data);//TODO change for treatment
 					
@@ -70,7 +71,7 @@ public class Server extends AbstractServer {
 					
 					launcher.send(packet2);
 					
-				}catch(Throwable t){}
+				}catch(Throwable t){System.out.println(t);}
 				after= System.currentTimeMillis();
 				sleep();
 				before= System.currentTimeMillis();		
@@ -80,19 +81,19 @@ public class Server extends AbstractServer {
 		
 
 		private void fireUpdate(byte[] data) {
-			System.out.println("infireupdateserver"+Arrays.toString(data));
-			System.out.println("   to int:  "+Byte_translator.toCoordinates(data));
-			/**player2Position= Byte_translator.toCoordinates(data);
-			TransferEvent event= new TransferEvent(player2Position, null);
-			for(NetworkListener l:listeners) {
-				l.update(event);
-			}
-			**/
+			System.out.println("infireupdateserver"+Arrays.toString(data)+"   ");
+			player2Position= Byte_translator.toCoordinates(data);
+			TransferEvent event= new TransferEvent(player2Position,null);
+			
+				listeners.get(0).update(event);
 		}
 		
 		private synchronized byte[] toByteArray() {
-			byte[] buffer= Byte_translator.toByteArray(playerPosition);
-			return buffer;
+			if(playerPosition != null) {
+				byte[] buffer= Byte_translator.toByteArray(playerPosition);
+				return buffer;
+			}else
+				return new byte[16];
 		}
 
 

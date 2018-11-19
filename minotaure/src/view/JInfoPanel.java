@@ -52,7 +52,7 @@ public class JInfoPanel extends JLabel implements NetworkListener {
 
 	@Override
 	public void update(TransferEvent te) {
-		// TODO Auto-generated method stub
+		System.out.println("in JinFO update");
 		
 	}
 

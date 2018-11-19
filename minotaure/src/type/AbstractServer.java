@@ -1,6 +1,8 @@
 package type;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import model.Coordinates;
 import services.IP_reader;
@@ -14,10 +16,10 @@ public abstract class AbstractServer implements LevelListener{
 	protected long before, after;
 	protected Coordinates playerPosition, player2Position, bossPosition;
 	
-	protected ArrayList<NetworkListener> listeners;
+	protected List<NetworkListener> listeners;
 	
 	public AbstractServer() {
-		listeners= new ArrayList<>();
+		listeners= Collections.synchronizedList(new ArrayList<NetworkListener>());
 		String[] socket= IP_reader.readSocket().split(" ");
 		this.ipAdress= socket[0];
 		this.port= Integer.parseInt(socket[1]);
