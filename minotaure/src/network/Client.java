@@ -3,6 +3,7 @@ package network;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 
 import model.Coordinates;
 import model.NetEvent;
@@ -36,7 +37,7 @@ public class Client extends AbstractServer {
 	
 	@Override
 	public void update(TransferEvent te) {
-		
+		playerPosition= te.getNewPlayerPosition();
 	}
 	
 	protected class UD_Catcher implements Runnable{
@@ -52,7 +53,7 @@ public class Client extends AbstractServer {
 					InetAddress address= InetAddress.getByName(ipAdress);
 					DatagramPacket packet, packet2;
 					
-					byte[] buffer= "allo".getBytes();
+					byte[] buffer= coordinatesToByteArray();
 					packet= new DatagramPacket(buffer, buffer.length, address, port);
 					
 					packet.setData(buffer);
@@ -64,11 +65,10 @@ public class Client extends AbstractServer {
 					packet2= new DatagramPacket(buffer2, buffer2.length, address, port);
 					
 					catcher.receive(packet2);
-					
+					fireUpdate();
 					byte[] data= packet2.getData();
 					print("in client", data);//TODO REMOVE
 
-					fireUpdate(packet);
 					
 				}catch(Throwable t) {System.out.println(t);}
 				after= System.currentTimeMillis();
@@ -82,8 +82,14 @@ public class Client extends AbstractServer {
 			
 			return null;
 		}
+		
+		protected synchronized byte[] coordinatesToByteArray() {
+			byte[] buffer= Byte_translator.toByteArray(playerPosition);
+			System.out.println("inclient  byte: "+Arrays.toString(buffer));
+			return buffer;
+		}
 
-		protected synchronized void fireUpdate(DatagramPacket packet) {
+		protected void fireUpdate() {
 			//TODO CHange
 			NetEvent ne= new NetEvent(true);
 			for(NetworkListener l:listeners) {

@@ -49,7 +49,7 @@ public abstract class AbstractCharacter {
 	}
 	
 	public void drawIfInScreen(Graphics g, Rectangle screen) {
-		
+		g.drawImage(currentImage, position.getX(), position.getY(), null);//TODO Change
 	}
 	
 

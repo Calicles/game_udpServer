@@ -12,7 +12,7 @@ public abstract class AbstractServer implements LevelListener{
 	
 	protected final long SLEEP= 1000/24; 
 	protected long before, after;
-	protected Coordinates playerPosition, bossPosition;
+	protected Coordinates playerPosition, player2Position, bossPosition;
 	
 	protected ArrayList<NetworkListener> listeners;
 	

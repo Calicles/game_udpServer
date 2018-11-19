@@ -1,6 +1,8 @@
 package services;
 
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import model.Coordinates;
 
@@ -11,31 +13,16 @@ public class Byte_translator {
 	 * @param coordinates
 	 * @return res tableau de byte
 	 */
-	public static  byte[] toByteArray(Coordinates coordinates) {
-		byte[] res= new byte[Integer.SIZE * 2];
+	public static  byte[] toByteArray(Coordinates position) {
+		int test= 5;
 		ByteBuffer buffer= ByteBuffer.allocate(4);
-		
-		buffer.putInt(coordinates.getX());
-		buffer.flip();
-		byte[] bytes= new byte[4];
-		buffer.get(bytes);
-		
-		copy(bytes, res, 0);
-		
-		ByteBuffer buffer2= ByteBuffer.allocate(4);
-		buffer2.putInt(coordinates.getY());
-		buffer2.flip();
-		buffer2.get(bytes);
-		
-		copy(bytes, res, bytes.length);
-		
-		
-		return res;
+		buffer.putInt(test);
+		return buffer.array();
 	}
 	
-	public static Coordinates toCoordinates(byte[] bytes) {
-		
-		return null;
+	public static int toCoordinates(byte[] bytes) {
+		ByteBuffer buffer= ByteBuffer.wrap(bytes);
+		return buffer.getInt();
 	}
 	
 	public static void copy(byte[] src, byte[] dest, int start) {

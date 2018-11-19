@@ -3,6 +3,7 @@ package network;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Arrays;
 
 import model.Coordinates;
 import model.NetEvent;
@@ -57,13 +58,13 @@ public class Server extends AbstractServer {
 						
 					launcher.receive(packet);
 	
-					byte[] data= packet.getData();
+					fireUpdate(packet.getData());
 					//TODO RMOVE
-					print("in server !!reçu du client:   "+packet.getAddress()+"p: "+packet.getPort()+"  ",data);//TODO change for treatment
+					//print("in server !!reçu du client:   "+packet.getAddress()+"p: "+packet.getPort()+"  ",data);//TODO change for treatment
 					
 					packet.setLength(buffer.length);
 					
-					byte[] buffer2= "réponse".getBytes();
+					byte[] buffer2= toByteArray();
 					packet2= new DatagramPacket(buffer2, buffer2.length,
 							packet.getAddress(), packet.getPort());
 					
@@ -78,15 +79,32 @@ public class Server extends AbstractServer {
 		}
 		
 
+		private void fireUpdate(byte[] data) {
+			System.out.println("infireupdateserver"+Arrays.toString(data));
+			System.out.println("   to int:  "+Byte_translator.toCoordinates(data));
+			/**player2Position= Byte_translator.toCoordinates(data);
+			TransferEvent event= new TransferEvent(player2Position, null);
+			for(NetworkListener l:listeners) {
+				l.update(event);
+			}
+			**/
+		}
+		
+		private synchronized byte[] toByteArray() {
+			byte[] buffer= Byte_translator.toByteArray(playerPosition);
+			return buffer;
+		}
+
+
 		protected byte[] coordinatesToByteArray() {
-			byte[] res= new byte[Integer.SIZE * 4];
+			//byte[] res= new byte[Integer.SIZE * 4];
 			byte[] bytes1= Byte_translator.toByteArray(playerPosition);
-			byte[] bytes2= Byte_translator.toByteArray(bossPosition);
+			//byte[] bytes2= Byte_translator.toByteArray(bossPosition);
 			
-			Byte_translator.copy(bytes1, res, 0);
-			Byte_translator.copy(bytes2, res, bytes1.length);
+			//Byte_translator.copy(bytes1, res, 0);
+			//Byte_translator.copy(bytes2, res, bytes1.length);
 			
-			return res; 
+			return bytes1; 
 		}
 		
 	}

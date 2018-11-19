@@ -58,7 +58,7 @@ public abstract class AbstractLevel {
 		map.drawMap(g, scrollBoxes.getScreenPosition());
 		player.draw(g, scrollBoxes.getScreenCoordinates());
 		if(player2 != null)
-			player2.drawIfInScreen(g, scrollBoxes.getScreenPosition());
+			player2.drawIfInScreen(g, scrollBoxes.getScreenPosition());//TODO CHANGE
 		
 		//TODO REMOVE
 		g.setColor(Color.BLACK);
