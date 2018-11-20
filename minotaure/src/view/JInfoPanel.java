@@ -52,7 +52,13 @@ public class JInfoPanel extends JLabel implements NetworkListener {
 
 	@Override
 	public void update(TransferEvent te) {
-		System.out.println("in JinFO update");
+		if(te.getNewPlayerPosition() != null) {
+			inGame= true;
+			this.setText("Connecxion établie");
+		}else {
+		inGame= false;
+		this.setText("En attente de connexion");
+		}
 		
 	}
 

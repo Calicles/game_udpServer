@@ -53,12 +53,13 @@ public class Server extends AbstractServer {
 
 					DatagramPacket packet, packet2;
 
-					byte[] buffer= new byte[8192];//coordinatesToByteArray(); TODO
+					byte[] buffer= new byte[16];//coordinatesToByteArray(); TODO
 					packet= new DatagramPacket(buffer, buffer.length);
 						
 					launcher.receive(packet);
-	
+					
 					fireUpdate(packet.getData());
+					
 					//print("afterUpdate",null);
 					//TODO RMOVE
 					//print("in server !!reçu du client:   "+packet.getAddress()+"p: "+packet.getPort()+"  ",data);//TODO change for treatment
@@ -81,11 +82,15 @@ public class Server extends AbstractServer {
 		
 
 		private void fireUpdate(byte[] data) {
-			System.out.println("infireupdateserver"+Arrays.toString(data)+"   ");
-			player2Position= Byte_translator.toCoordinates(data);
-			TransferEvent event= new TransferEvent(player2Position,null);
 			
-				listeners.get(0).update(event);
+			byte[] buffer1= new byte[8];
+			byte[] buffer2= new byte[8];
+			Byte_translator.copyOut(data, buffer1, buffer2);
+			player2Position= Byte_translator.toCoordinates(buffer1);
+			player2Images= Byte_translator.toCoordinates(buffer2);
+			TransferEvent event= new TransferEvent(player2Position, player2Images);
+			for(NetworkListener l:listeners)
+				l.update(event);
 		}
 		
 		private synchronized byte[] toByteArray() {
@@ -106,6 +111,13 @@ public class Server extends AbstractServer {
 			//Byte_translator.copy(bytes2, res, bytes1.length);
 			
 			return bytes1; 
+		}
+		
+		protected void fireUpdateState() {
+			NetEvent event= new NetEvent(true);
+			for(NetworkListener l:listeners) {
+				l.updateState(event);
+			}
 		}
 		
 	}

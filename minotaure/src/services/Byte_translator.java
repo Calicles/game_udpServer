@@ -25,12 +25,7 @@ public class Byte_translator {
 		buffer2.putInt(y);
 		yArray= buffer2.array();
 		
-		copy(xArray, res, 0, xArray.length);
-		int j= 4;
-		for(int i=0;i<yArray.length;i++) {
-			res[j]= yArray[i];
-			j++;
-		}
+		copy(xArray, yArray, res, 0);
 		
 		return res;
 	}
@@ -38,12 +33,8 @@ public class Byte_translator {
 	public static Coordinates toCoordinates(byte[] bytes) {
 		int x, y;
 		byte[] xArray= new byte[4], yArray= new byte[4];
-		copy(bytes, xArray, 0, xArray.length);
-		int j= 4;
-		for(int i= 0; i< yArray.length; i++) {
-			yArray[i]= bytes[j];
-			j++;
-		}
+		copyOut(bytes, xArray, yArray);
+
 		ByteBuffer buffer= ByteBuffer.wrap(xArray);
 		x= buffer.getInt();
 		
@@ -53,10 +44,26 @@ public class Byte_translator {
 		return new Coordinates(x, y);
 	}
 	
-	public static void copy(byte[] src, byte[] dest, int start, int stop) {
-		for(int i= start; i < stop; i++) {
-			dest[i]= src[i];
+	public static void copy(byte[] src1, byte[] src2, byte[] dest, int start) {
+		for(int i= start; i < dest.length; i++) {
+			if(i < src1.length) {
+				dest[i]= src1[i];
+			}else {
+				dest[i]= src2[i - src1.length];
+			}
+		}
+		
+	}
+	
+	public static void copyOut(byte[] src, byte[] dest1, byte[] dest2) {
+		for(int i= 0; i< src.length; i++) {
+			if(i < dest1.length) {
+				dest1[i]= src[i];
+			}else {
+				dest2[i - dest1.length]= src[i];
+			}
 		}
 	}
+	
 
 }

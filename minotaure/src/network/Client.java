@@ -38,6 +38,7 @@ public class Client extends AbstractServer {
 	@Override
 	public void update(TransferEvent te) {
 		playerPosition= te.getNewPlayerPosition();
+		playerImages= te.getPlayerImages();
 	}
 	
 	protected class UD_Catcher implements Runnable{
@@ -65,7 +66,8 @@ public class Client extends AbstractServer {
 					packet2= new DatagramPacket(buffer2, buffer2.length, address, port);
 					
 					catcher.receive(packet2);
-					fireUpdate();
+					fireUpdateState();
+					
 					byte[] data= packet2.getData();
 					print("in client", data);//TODO REMOVE
 
@@ -84,17 +86,25 @@ public class Client extends AbstractServer {
 		}
 		
 		protected synchronized byte[] coordinatesToByteArray() {
+			byte[] res= new byte[16];
 			byte[] buffer= Byte_translator.toByteArray(playerPosition);
-			System.out.println("inclient  byte: "+Arrays.toString(buffer));
-			return buffer;
+			byte[] buffer2= Byte_translator.toByteArray(playerImages);
+			
+			Byte_translator.copy(buffer, buffer2, res, 0);
+			
+			return res;
 		}
 
-		protected void fireUpdate() {
-			//TODO CHange
+		protected void fireUpdateState() {
+	
 			NetEvent ne= new NetEvent(true);
 			for(NetworkListener l:listeners) {
 				l.updateState(ne);
 			}
+		}
+		
+		protected void fireUpdate() {//TODO
+			
 		}
 		
 	}

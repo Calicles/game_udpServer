@@ -16,7 +16,7 @@ public abstract class AbstractCharacter {
 	protected BufferedImage currentImage;
 	protected Rectangle position;
 	
-	protected int direction, animIndex; //le second est un paramètre à envoyer via le server
+	protected int direction, animIndex; 
 	
 	public AbstractCharacter(String setUrl) {
 		Coordinates buffer= new Coordinates(0, 0);
@@ -30,6 +30,7 @@ public abstract class AbstractCharacter {
 	public Rectangle getPosition() {return position;}
 	public int getDirection() {return direction;}
 	public int getAnimIndex() {return animIndex;}
+	public Coordinates getImages() {return new Coordinates(direction, animIndex);}
 	public Coordinates getCoordinates() {return position.getCoordinates();}
 	public BufferedImage getImage() {return currentImage;}
 	public int getDiagonal() {return position.getDiagonal();}
@@ -40,6 +41,10 @@ public abstract class AbstractCharacter {
 	
 	public void setCoordinates(Coordinates newPosition) {
 		position.setCoordinates(newPosition.getX(), newPosition.getY());
+	}
+	
+	public void setImages(Coordinates images) {
+		currentImage= this.animation.get(images.getX())[images.getY()];
 	}
 	
 	public void draw(Graphics g, Coordinates screen) {

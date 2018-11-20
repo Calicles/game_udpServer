@@ -63,8 +63,9 @@ public class LevelCli extends AbstractLevel {
 
 	@Override
 	protected void fireUpdate() {
+		TransferEvent event= new TransferEvent(player.getCoordinates(), player.getImages());
 		for(LevelListener l:listeners) {
-			l.update(new TransferEvent(player.getCoordinates(), null, null));
+			l.update(event);
 		}
 	}
 
