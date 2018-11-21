@@ -17,19 +17,16 @@ public class Server extends AbstractServer {
 	public Server() {
 		super();
 	}
-
-	public void run(Coordinates playerPosition, Coordinates bossPosition) {
-		this.playerPosition= playerPosition;
-		this.bossPosition= bossPosition;
-		initServer();
-	}
 	
 	public void update(TransferEvent te){
 		this.playerPosition= te.getNewPlayerPosition();
+		this.playerImages= te.getPlayerImages();
 		this.bossPosition= te.getNewBossPosition();
+		this.bossImages= te.getBossImages();
 	}
 
 	protected void initServer() {
+		
 			Thread launcher= new Thread(new UD_MachineGun());
 
 			launcher.setDaemon(true);
@@ -59,16 +56,12 @@ public class Server extends AbstractServer {
 					launcher.receive(packet);
 					
 					fireUpdate(packet.getData());
-					
-					//print("afterUpdate",null);
-					//TODO RMOVE
-					//print("in server !!reçu du client:   "+packet.getAddress()+"p: "+packet.getPort()+"  ",data);//TODO change for treatment
-					
+			
 					packet.setLength(buffer.length);
 					
 					byte[] buffer2= toByteArray();
 					packet2= new DatagramPacket(buffer2, buffer2.length,
-							packet.getAddress(), packet.getPort());
+												packet.getAddress(), packet.getPort());
 					
 					launcher.send(packet2);
 					
@@ -85,32 +78,30 @@ public class Server extends AbstractServer {
 			
 			byte[] buffer1= new byte[8];
 			byte[] buffer2= new byte[8];
+			
 			Byte_translator.copyOut(data, buffer1, buffer2);
 			player2Position= Byte_translator.toCoordinates(buffer1);
 			player2Images= Byte_translator.toCoordinates(buffer2);
 			TransferEvent event= new TransferEvent(player2Position, player2Images);
+			
 			for(NetworkListener l:listeners)
 				l.update(event);
 		}
 		
 		private synchronized byte[] toByteArray() {
-			if(playerPosition != null) {
-				byte[] buffer= Byte_translator.toByteArray(playerPosition);
-				return buffer;
-			}else
-				return new byte[16];
-		}
-
-
-		protected byte[] coordinatesToByteArray() {
-			//byte[] res= new byte[Integer.SIZE * 4];
-			byte[] bytes1= Byte_translator.toByteArray(playerPosition);
-			//byte[] bytes2= Byte_translator.toByteArray(bossPosition);
+			byte[] res= new byte[32];
+			byte[] buffer= Byte_translator.toByteArray(playerPosition);
+			byte[] buffer2= Byte_translator.toByteArray(playerImages);
+			byte[] buffer3= new byte[16];
+			byte[] buffer4= new byte[16];
+			Byte_translator.copy(buffer, buffer2, buffer3, 0);
 			
-			//Byte_translator.copy(bytes1, res, 0);
-			//Byte_translator.copy(bytes2, res, bytes1.length);
+			buffer= Byte_translator.toByteArray(bossPosition);
+			buffer2= Byte_translator.toByteArray(bossImages);
+			Byte_translator.copy(buffer, buffer2, buffer4, 0);
 			
-			return bytes1; 
+			Byte_translator.copy(buffer3, buffer4, res, 0);
+			return res;
 		}
 		
 		protected void fireUpdateState() {
@@ -121,7 +112,5 @@ public class Server extends AbstractServer {
 		}
 		
 	}
-	
-
 
 }

@@ -3,10 +3,7 @@ package network;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Arrays;
 
-import model.Coordinates;
-import model.NetEvent;
 import model.TransferEvent;
 import services.Byte_translator;
 import type.AbstractServer;
@@ -18,20 +15,13 @@ public class Client extends AbstractServer {
 		super();
 		
 	}
-	
-	public void run(Coordinates playerPosition, Coordinates bossPosition) {
-		this.playerPosition= playerPosition;
-		this.bossPosition= bossPosition;
-		initServer();
-	}
-	
 
 	public void initServer() {
-		//Thread launcher= new Thread(new UD_MachineGunCli());
+		
 		Thread catcher= new Thread(new UD_Catcher());
-		//launcher.setDaemon(true);
+		
 		catcher.setDaemon(true);
-		//launcher.start();
+		
 		catcher.start();
 	}
 	
@@ -61,15 +51,13 @@ public class Client extends AbstractServer {
 					
 					catcher.send(packet);
 					
-					byte[] buffer2= new byte[8192];
+					byte[] buffer2= new byte[32];
 					
 					packet2= new DatagramPacket(buffer2, buffer2.length, address, port);
 					
 					catcher.receive(packet2);
-					fireUpdateState();
 					
-					byte[] data= packet2.getData();
-					print("in client", data);//TODO REMOVE
+					byteArrayToCoordinates(packet2.getData());
 
 					
 				}catch(Throwable t) {System.out.println(t);}
@@ -80,9 +68,23 @@ public class Client extends AbstractServer {
 			
 		}
 		
-		protected Coordinates byteArrayToCoordinates(byte[] bytes) {
+		protected void byteArrayToCoordinates(byte[] bytes) {
+			byte[] buffer= new byte[16];
+			byte[] buffer2= new byte[16];
+			Byte_translator.copyOut(bytes, buffer, buffer2);
 			
-			return null;
+			byte[] buffer3= new byte[8];
+			byte[] buffer4= new byte[8];
+			Byte_translator.copyOut(buffer, buffer3, buffer4);
+			player2Position= Byte_translator.toCoordinates(buffer3);
+			player2Images= Byte_translator.toCoordinates(buffer4);
+			
+			Byte_translator.copyOut(buffer2, buffer3, buffer4);
+			bossPosition= Byte_translator.toCoordinates(buffer3);
+			bossImages= Byte_translator.toCoordinates(buffer4);
+			
+			TransferEvent event= new TransferEvent(player2Position, player2Images, bossPosition, bossImages);
+			fireUpdate(event);
 		}
 		
 		protected synchronized byte[] coordinatesToByteArray() {
@@ -94,17 +96,11 @@ public class Client extends AbstractServer {
 			
 			return res;
 		}
-
-		protected void fireUpdateState() {
-	
-			NetEvent ne= new NetEvent(true);
-			for(NetworkListener l:listeners) {
-				l.updateState(ne);
-			}
-		}
 		
-		protected void fireUpdate() {//TODO
-			
+		protected void fireUpdate(TransferEvent event) {
+			for(NetworkListener l:listeners) {
+				l.update(event);
+			}
 		}
 		
 	}

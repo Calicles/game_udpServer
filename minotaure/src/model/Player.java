@@ -16,7 +16,6 @@ public class Player extends AbstractCharacter_with_transfer {
 	public void movesDown() {transfer_strategy.movesDown();}
 	
 	public void movesReleased() {
-		animIndex= 0; 
 		animationStoped();
 		transfer_strategy.released();
 		}

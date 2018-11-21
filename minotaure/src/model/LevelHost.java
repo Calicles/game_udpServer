@@ -22,6 +22,7 @@ public class LevelHost extends AbstractLevel {
 	}
 	
 	public Coordinates getBossCoordinates() {return boss.getCoordinates();}
+	public Coordinates getBossImages(){return boss.getImages();}
 	
 	public void playerMovesLeft() {player.movesLeft();}
 	public void playerMovesRight() {player.movesRight();}
@@ -31,7 +32,7 @@ public class LevelHost extends AbstractLevel {
 	
 	public void drawLevel(Graphics g) {
 		super.drawLevel(g);
-		boss.drawIfInScreen(g, scrollBoxes.getScreenPosition());
+		boss.draw(g, scrollBoxes.getScreenPosition());
 	}
 
 	private void runGameLoop() {
@@ -78,7 +79,8 @@ public class LevelHost extends AbstractLevel {
 
 	protected void fireUpdate() {
 		for(LevelListener l:listeners) {
-			l.update(new TransferEvent(player.getCoordinates(), null, null));
+			l.update(new TransferEvent(player.getCoordinates(), player.getImages(), 
+					boss.getCoordinates(), boss.getImages()));
 		}
 	}
 

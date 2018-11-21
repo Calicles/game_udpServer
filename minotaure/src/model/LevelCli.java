@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import type.AbstractLevel;
 import type.LevelListener;
@@ -12,6 +13,12 @@ public class LevelCli extends AbstractLevel {
 	public LevelCli(Dimension screenSize) {
 		super("ressources/player/set.txt", screenSize);
 		boss= null;
+	}
+	
+	@Override
+	public void drawLevel(Graphics g) {
+		super.drawLevel(g);
+		boss.draw(g, scrollBoxes.getScreenPosition());
 	}
 	
 	@Override
@@ -55,10 +62,24 @@ public class LevelCli extends AbstractLevel {
 
 	@Override
 	public void update(TransferEvent te) {
-		if(player2 != null) {
-			
-		}else
-			player2= new Player2("ressources/player/set.txt");
+		try {
+			player2.setCoordinates(te.getNewPlayerPosition());
+			player2.setImages(te.getPlayerImages());
+			boss.setCoordinates(te.getNewBossPosition());
+			boss.setImages(te.getBossImages());
+		}catch(NullPointerException ne) {
+			if(player2 == null) {
+				player2= new Player2("ressources/player/set.txt");
+				player2.setCoordinates(te.getNewPlayerPosition());
+				player2.setImages(te.getBossImages());
+			}
+			if(boss == null) {
+				boss= new Boss_IALess("ressources/boss/set.txt");
+				boss.setCoordinates(te.getNewBossPosition());
+				boss.setImages(te.getBossImages());
+			}
+		}
+		fireUpdate();
 	}
 
 	@Override

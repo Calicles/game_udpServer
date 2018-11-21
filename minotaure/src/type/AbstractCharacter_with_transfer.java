@@ -30,8 +30,9 @@ public abstract class AbstractCharacter_with_transfer extends AbstractCharacter 
 					direction= 0;
 				}
 			}
-			currentImage= animation.get(direction)[animIndex];
 			updateIndex();
+			currentImage= animation.get(direction)[animIndex];
+			
 		}
 	}
 	
@@ -47,7 +48,7 @@ public abstract class AbstractCharacter_with_transfer extends AbstractCharacter 
 	}
 
 	public void animationStoped() {
-		currentImage= animation.get(direction)[1];
 		animIndex= 0;
+		currentImage= animation.get(direction)[1];
 	}
 }

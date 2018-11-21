@@ -10,11 +10,11 @@ import services.IP_reader;
 public abstract class AbstractServer implements LevelListener{
 	
 	protected String ipAdress;
-	protected int port;
+	protected int port;	
 	
 	protected final long SLEEP= 1000/24; 
 	protected long before, after;
-	protected Coordinates playerPosition, playerImages, player2Position, player2Images, bossPosition;
+	protected Coordinates playerPosition, playerImages, player2Position, player2Images, bossPosition, bossImages;
 	
 	protected List<NetworkListener> listeners;
 	
@@ -25,10 +25,19 @@ public abstract class AbstractServer implements LevelListener{
 		this.port= Integer.parseInt(socket[1]);
 		this.playerPosition= null;
 		this.bossPosition= null;
-		System.out.println("in AbstractServe ip:  "+ipAdress+"    port:  "+port);
 	}
 	
-	public void run(Coordinates playerPosition, Coordinates bossPosition) {}
+	protected abstract void initServer();
+	
+	public void run(Coordinates playerPosition, Coordinates playerImages,
+					Coordinates bossPosition, Coordinates bossImages) {
+		
+		this.playerPosition= playerPosition;
+		this.bossPosition= bossPosition;
+		this.playerImages= playerImages;
+		this.bossImages= bossImages;
+		initServer();
+	}
 	
 	public void addListener(NetworkListener listener) {
 		listeners.add(listener);
