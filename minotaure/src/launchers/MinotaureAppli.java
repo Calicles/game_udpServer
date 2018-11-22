@@ -2,15 +2,19 @@ package launchers;
 
 
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 
 import manager.LevelManager;
-import model.Map;
-import type.AbstractMap;
 import view.Frame;
 
 public class MinotaureAppli {
 	
 	public MinotaureAppli() {
+		
+		//Get the Window Bounds
+		GraphicsEnvironment graphics= GraphicsEnvironment.getLocalGraphicsEnvironment();
+		Rectangle maxWindowBounds= graphics.getMaximumWindowBounds();
 		
 		Dimension screenSize= new Dimension(640, 640);
 		LevelManager levelManager;

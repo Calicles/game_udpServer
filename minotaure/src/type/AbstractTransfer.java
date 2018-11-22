@@ -2,7 +2,6 @@ package type;
 
 import model.Coordinates;
 import model.Rectangle;
-import model.Tile;
 
 public abstract class AbstractTransfer {
 	
@@ -18,7 +17,28 @@ public abstract class AbstractTransfer {
 	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {return null;}
 	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition2, AbstractMap map) {}
 	
-	public Coordinates adaptVectors(Rectangle position, AbstractMap map) {
+	public void adaptVectorsByPlayer2(Rectangle position, Rectangle player2Position) {
+		if(Rectangle.isNext(position, player2Position, position.getDiagonal()) && (xVector != 0 || yVector != 0)) {
+			if(xVector > 0) {
+				if(Rectangle.isARight(position, player2Position) && player2Position.getX() - position.getEndX() <= 4)
+					xVector= player2Position.getX() - (position.getEndX() + 1);
+					
+			}else if(xVector < 0) {
+				if(Rectangle.isALeft(position, player2Position) && player2Position.getEndX() - position.getX() >= -4)
+					xVector= (player2Position.getEndX() + 1)- position.getX();
+
+			}else if(yVector <0) {
+				if(Rectangle.isUp(position, player2Position) && player2Position.getEndY() - position.getY() >= -4)
+					yVector= (player2Position.getEndY() +1) - position.getY();
+				
+			}else {
+				if(Rectangle.isDown(position, player2Position) && player2Position.getY() - position.getEndY() <= 4)
+					yVector= player2Position.getY() - (position.getEndY() + 1);
+			}
+		}
+	}
+	
+	public void adaptVectors(Rectangle position, AbstractMap map) {
 		
 		//On cherche si vecteur null pas de calcul !
 		if(xVector != 0 || yVector !=0) {
@@ -41,8 +61,7 @@ public abstract class AbstractTransfer {
 				checkDown(position, map);
 			}
 		}
-		//On return pour scrolling
-		return new Coordinates(xVector, yVector);
+		
 	}
 	
 	protected void checkLeft(Rectangle position, AbstractMap map) {
@@ -65,16 +84,21 @@ public abstract class AbstractTransfer {
 	}
 	
 	protected void checkRight(Rectangle position, AbstractMap map) {
+		
+		Rectangle tile;
 		int playerEndX= position.getEndX();
 		
-		if((position.getEndX() > (map.getWidth() - map.getTileWidth())) &&
-				playerEndX > map.getWidth() - 4) {
+		if(position.getEndX() > (map.getWidth() - map.getTileWidth())){
+			if(playerEndX >= map.getWidth() - 4) {
 			
-			xVector= map.getWidth() - playerEndX;
+				xVector= map.getWidth() - playerEndX;
+		}
 			
-		}/**else if((tile= checkRightTiles(position, map)) != null) {
-				xVector= tile.getX() - (position.getEndX());
-		}**/
+		}else if((tile= checkRightTiles(position, map)) != null) {
+			if(tile.getX() - position.getEndX() <= 4)
+				xVector= tile.getX() - (position.getEndX() + 1);
+
+		}
 		yVector= 0;
 	}
 	
@@ -136,13 +160,13 @@ public abstract class AbstractTransfer {
 	}
 	protected Rectangle checkRightTiles(Rectangle position, AbstractMap map) {
 		
-		int x, y, width, height;
+		int x, y, endY;
 		
 		x= position.getEndX() / map.getTileWidth() +1;
-		width= x;
-		y= position.getY() / map.getTileWidth();
-		height= position.getEndY() / map.getTileHeight();
-		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), width, height), map);
+		y= position.getY() / map.getTileHeight();
+		endY= position.getEndY() / map.getTileHeight();
+		
+		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), 0, endY - y), map);
 	}
 	
 	protected Rectangle checkLeftTiles(Rectangle position, AbstractMap map) {

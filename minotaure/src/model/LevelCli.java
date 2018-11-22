@@ -29,7 +29,11 @@ public class LevelCli extends AbstractLevel {
 	}
 	
 	public void loop() {
-		Coordinates vectors= player.memorizePlayerMoves(null, map);//TODO Change
+		Rectangle player2Position;
+		if(player2 != null)
+			player2Position= player2.getPosition();
+		else player2Position= null;
+		Coordinates vectors= player.memorizePlayerMoves(player2Position, map);
 		scroll(vectors);
 		fireUpdate();
 	}
