@@ -2,22 +2,26 @@ package model;
 
 public class TransferEvent {
 	
-	private Coordinates newPlayerPosition, newPlayer2Position, newBossPosition;
+	private Coordinates newPlayerPosition, newBossPosition;
+	private Coordinates playerImages, bossImages;
 	
-	public TransferEvent(Coordinates playerPosition, Coordinates bossPosition) {
+	public TransferEvent(Coordinates playerPosition, Coordinates playerImages) {
 		this.newPlayerPosition= playerPosition;
-		this.newBossPosition= bossPosition;
-		this.newPlayer2Position= null;
+		this.playerImages= playerImages;
 	}
-	
-	public TransferEvent(Coordinates playerPosition, Coordinates player2Position, Coordinates bossPosition) {
-		this.newPlayerPosition= playerPosition;
-		this.newBossPosition= bossPosition;
-		this.newPlayer2Position= player2Position;
+
+	public TransferEvent(Coordinates newPlayerPosition, Coordinates playerImages,
+			Coordinates newBossPosition, Coordinates bossImages) {
+		this.newPlayerPosition= newPlayerPosition;
+		this.playerImages= playerImages;
+		this.newBossPosition= newBossPosition;
+		this.bossImages= bossImages;
 	}
 
 	public Coordinates getNewPlayerPosition() {return newPlayerPosition;}
 	public Coordinates getNewBossPosition() {return newBossPosition;}
+	public Coordinates getPlayerImages() {return playerImages;}
+	public Coordinates getBossImages() {return bossImages;}
 	
 
 }

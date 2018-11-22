@@ -17,52 +17,84 @@ public abstract class AbstractTransfer {
 	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {return null;}
 	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition2, AbstractMap map) {}
 	
-	public Coordinates adaptVectorsBySolidTiles(Rectangle position, AbstractMap map) {
-		Rectangle tile;
-		int playerX= position.getX(), playerY= position.getY();
+	public Coordinates adaptVectors(Rectangle position, AbstractMap map) {
 		
-		//On cherche le vecteur
-		if(xVector != 0) {
+		//On cherche si vecteur null pas de calcul !
+		if(xVector != 0 || yVector !=0) {
 			
 			//On cherche la direction
 			if(xVector < 0) {
 				
-				//si au bord de la map on annule ou réduit le vecteur
-				if(playerX < map.getTileWidth() && playerX < 4) {
-					xVector= 0 - playerX;
-					
-				//Si au bord d'une tuile solide idem
-				}else if((tile= checkLeftTiles(position, map)) != null) {
-					xVector= tile.getEndX() - playerX;
-				}
-			}else {
-				if(position.getEndX() > map.getWidth() - map.getTileWidth()) {
-					xVector= map.getWidth() - position.getEndX();
-				}else if((tile= checkRightTiles(position, map)) != null) {
-						xVector= tile.getX() - (position.getEndX());
-				}
-			}
-		}else if(yVector != 0) {
-
-			if(yVector < 0) {
-				if(playerY < map.getTileHeight() && playerY < 4) {
-					yVector= 0 - playerY;
-				}else if((tile= checkOnUpTiles(position, map)) != null){
-					yVector= tile.getEndY() - playerY;
-				}
-			}else {
-				if(position.getEndY() > map.getHeight() - map.getTileHeight() && position.getEndY() >= map.getHeight()) {
-
-					yVector= map.getHeight() - position.getEndY();
-				}else if((tile= checkOnDownTiles(position, map)) != null) {
-					yVector= tile.getEndY() - playerY;
-				}
+				checkLeft(position, map);
+				
+			}else if(xVector > 0) {
+				
+				checkRight(position, map);
+				
+			}else if(yVector < 0) {
+				
+				checkUp(position, map);
+				
+			}else if(yVector > 0) {
+				
+				checkDown(position, map);
 			}
 		}
 		//On return pour scrolling
 		return new Coordinates(xVector, yVector);
 	}
-	private Rectangle checkOnDownTiles(Rectangle position, AbstractMap map) {
+	
+	protected void checkLeft(Rectangle position, AbstractMap map) {
+		int playerX= position.getX();
+		
+		if((playerX < map.tile_width) && (playerX < 4)) {
+			xVector= 0 - playerX; 
+			
+		}/**else if((tile= checkLeftTiles(position, map)) != null) {
+			xVector= tile.getEndX() - playerX;
+		}**/
+		yVector= 0;	
+	}
+	
+	protected void checkRight(Rectangle position, AbstractMap map) {
+		int playerEndX= position.getEndX();
+		
+		if((position.getEndX() > (map.getWidth() - map.getTileWidth())) &&
+				playerEndX > map.getWidth() - 4) {
+			
+			xVector= map.getWidth() - playerEndX;
+			
+		}/**else if((tile= checkRightTiles(position, map)) != null) {
+				xVector= tile.getX() - (position.getEndX());
+		}**/
+		yVector= 0;
+	}
+	
+	protected void checkUp(Rectangle position, AbstractMap map) {
+		int playerY= position.getY();
+		
+		if((playerY < map.tile_height) && (playerY < 4)) {
+			yVector= 0 - playerY;
+		}/**else if((tile= checkOnUpTiles(position, map)) != null){
+		yVector= tile.getEndY() - playerY;
+		}**/
+		xVector= 0;
+	}
+	
+	protected void checkDown(Rectangle position, AbstractMap map) {
+		int playerEndY= position.getEndY();
+
+		if((playerEndY > (map.getHeight() - map.tile_height)) && 
+				(playerEndY > map.getHeight() - 4)) {
+			
+			yVector= map.getHeight() - position.getEndY();
+		}/**else if((tile= checkOnDownTiles(position, map)) != null) {
+			yVector= tile.getEndY() - playerY;
+		}**/
+		xVector= 0;
+	}
+	
+	protected Rectangle checkOnDownTiles(Rectangle position, AbstractMap map) {
 
 		int x, y, xMax, yMax;
 		
@@ -72,7 +104,7 @@ public abstract class AbstractTransfer {
 		yMax= y;
 		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
-	private Rectangle checkOnUpTiles(Rectangle position, AbstractMap map) {
+	protected Rectangle checkOnUpTiles(Rectangle position, AbstractMap map) {
 
 		int x, y, xMax, yMax;
 		
@@ -82,7 +114,7 @@ public abstract class AbstractTransfer {
 		yMax= y;
 		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
-	private Rectangle checkRightTiles(Rectangle position, AbstractMap map) {
+	protected Rectangle checkRightTiles(Rectangle position, AbstractMap map) {
 		
 		int x, y, xMax, yMax;
 		
@@ -93,7 +125,7 @@ public abstract class AbstractTransfer {
 		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
 	
-	private Rectangle checkLeftTiles(Rectangle position, AbstractMap map) {
+	protected Rectangle checkLeftTiles(Rectangle position, AbstractMap map) {
 		
 		int x, y, xMax, yMax;
 		
@@ -104,7 +136,7 @@ public abstract class AbstractTransfer {
 		return isSolidTileOnRoad(new Rectangle(new Coordinates(x, y), xMax, yMax), map);
 	}
 	
-	public Rectangle isSolidTileOnRoad(Rectangle surface, AbstractMap map) {
+	protected Rectangle isSolidTileOnRoad(Rectangle surface, AbstractMap map) {
 		int[][] tiles= map.getTiles();
 		
 		for(int i= surface.getY(); i < surface.getHeight(); i++) {

@@ -16,12 +16,13 @@ public class LevelHost extends AbstractLevel {
 	private boolean inGame;
 	
 	public LevelHost(Dimension screenSize) {
-		super("ressources/player/set.txt", "ressources/player/set.txt", screenSize);
+		super("ressources/player/set.txt", screenSize);
 		boss= new Boss("ressources/boss/set.txt");
 		inGame= false;
 	}
 	
 	public Coordinates getBossCoordinates() {return boss.getCoordinates();}
+	public Coordinates getBossImages(){return boss.getImages();}
 	
 	public void playerMovesLeft() {player.movesLeft();}
 	public void playerMovesRight() {player.movesRight();}
@@ -31,14 +32,14 @@ public class LevelHost extends AbstractLevel {
 	
 	public void drawLevel(Graphics g) {
 		super.drawLevel(g);
-		boss.drawIfInScreen(g, scrollBoxes.getScreenPosition());
+		boss.draw(g, scrollBoxes.getScreenPosition());
 	}
 
 	private void runGameLoop() {
 		gameLoop= new Thread(()-> {
-			
+
 			before= System.currentTimeMillis();
-			while(inGame) {
+			while(inGame) {	
 				loop();
 				after= System.currentTimeMillis();
 				sleep();
@@ -63,22 +64,23 @@ public class LevelHost extends AbstractLevel {
 			return 0;
 	}
 
-	private void loop() {
-		Coordinates vectors= player.memorizeMoves(player2.getPosition(), map);
+	private synchronized void loop() {
+		Rectangle player2coor;
+		if(player2 != null) player2coor= player2.getPosition();
+		else player2coor= null;
+		Coordinates vectors= player.memorizePlayerMoves(player2coor, map);
 		scroll(vectors);
 		boss.memorizeMoves(player.getPosition(), map);
+		checkCollision();
+		fireUpdate();
 		
-		synchronized(this) {
-			checkCollision();
-			fireUpdate();
-		}
 	}
 
 
 	protected void fireUpdate() {
 		for(LevelListener l:listeners) {
-			l.update(new TransferEvent(player.getCoordinates(), 
-					player2.getCoordinates(), boss.getCoordinates()));
+			l.update(new TransferEvent(player.getCoordinates(), player.getImages(), 
+					boss.getCoordinates(), boss.getImages()));
 		}
 	}
 
@@ -88,7 +90,20 @@ public class LevelHost extends AbstractLevel {
 	}
 	
 	public void update(TransferEvent te) {
-		player2.setCoordinates(te.getNewPlayerPosition());
+		
+		try {
+			
+			player2.setCoordinates(te.getNewPlayerPosition());
+			player2.setImages(te.getPlayerImages());
+	
+		}catch(NullPointerException ne) {
+			
+			if(te.getNewPlayerPosition() != null) {
+				player2= new Player2("ressources/player/set.txt");
+				player2.setCoordinates(te.getNewPlayerPosition());
+				player2.setImages(te.getPlayerImages());
+			}
+		}
 	}
 
 

@@ -24,8 +24,9 @@ public class NetWork {
 		line.addListener(listener);
 	}
 
-	public void run(Coordinates playerPosition, Coordinates bossPosition) {
-		line.run(playerPosition, bossPosition);
+	public void run(Coordinates playerPosition, Coordinates playerImages,
+					Coordinates bossPosition, Coordinates bossImages) {
+		line.run(playerPosition, playerImages, bossPosition, bossImages);
 	}
 	
 	

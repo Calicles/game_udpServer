@@ -20,12 +20,15 @@ public class DoubleBoxes {
 
 	public Rectangle getScreenPosition() {return screen;}
 	public Rectangle getScrollPosition() {return scrollBox;}
+	
 	public Coordinates getScrollCoordinates() {return scrollBox.getCoordinates();}
 	public Coordinates getScreenCoordinates() {return screen.getCoordinates();}
+	
 	public int getScreenX() {return screen.getX();}
 	public int getScreenEndX() {return screen.getEndX();}
 	public int getScreenY() {return screen.getY();}
-	public int getScreenEndY() {return screen.getY();}
+	public int getScreenEndY() {return screen.getEndY();}
+	
 	public int getScrollX() {return scrollBox.getX();}
 	public int getScrollEndX() {return scrollBox.getEndX();}
 	public int getScrollY() {return scrollBox.getY();}

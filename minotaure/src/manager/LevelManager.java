@@ -47,7 +47,7 @@ public class LevelManager implements Controller, NetworkListener {
 		server.initLine(levelType);
 		server.addListener(this);
 		this.addListener(server.getLine());
-		server.run(level.getPlayerCoordinates(), level.getBossCoordinates());
+		server.run(level.getPlayerCoordinates(), level.getPlayerImages(), level.getPlayerImages(), level.getBossImages()); 
 	}
 	
 
