@@ -10,7 +10,7 @@ import services.Map_reader;
 
 public abstract class AbstractMap {
 	
-	public static final int solidTile= 10;
+	public static final int solidTile= 6;
 	protected int[][] tiles;
 	protected HashMap<Integer, BufferedImage> tileSet;
 	protected Dimension size;
