@@ -13,7 +13,8 @@ public abstract class AbstractCharacter_with_transfer extends AbstractCharacter 
 	}
 
 	public Coordinates memorizePlayerMoves(Rectangle player2Position, AbstractMap map) {return null;}
-	public void memorizeBossMoves(Rectangle player1Position, Rectangle player2Position, AbstractMap map) {}	
+	public void memorizeBossMoves() {}	
+	public void think(Coordinates player1, Coordinates player2) {}
 
 	protected void changeSprite(Coordinates vectors) {
 		if(vectors.getX() != 0 || vectors.getY() != 0) {

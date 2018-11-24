@@ -15,7 +15,8 @@ public abstract class AbstractTransfer {
 	public void released() {}
 	
 	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {return null;}
-	public void memorizeBossMoves(Rectangle position, Rectangle playerPosition2, AbstractMap map) {}
+	public Coordinates memorizeBossMoves() {return null;}
+	public void think(Coordinates bossPosition, Coordinates player1, Coordinates player2) {}
 	
 	public void adaptVectorsByPlayer2(Rectangle position, Rectangle player2Position) {
 		if(Rectangle.isNext(position, player2Position, position.getDiagonal()) && (xVector != 0 || yVector != 0)) {

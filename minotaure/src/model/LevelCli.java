@@ -18,7 +18,8 @@ public class LevelCli extends AbstractLevel {
 	@Override
 	public void drawLevel(Graphics g) {
 		super.drawLevel(g);
-		boss.draw(g, scrollBoxes.getScreenPosition());
+		if(boss != null)
+			boss.draw(g, scrollBoxes.getScreenPosition());
 	}
 	
 	@Override

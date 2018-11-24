@@ -11,4 +11,4 @@ ressources/images/pinki/droite3.png
 ressources/images/pinki/dos1.png
 ressources/images/pinki/dos2.png
 ressources/images/pinki/dos3.png
-0 0
+35 35
