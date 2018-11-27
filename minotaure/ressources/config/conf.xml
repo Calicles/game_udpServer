@@ -6,18 +6,33 @@
 		<size width="" height="">640</size>
 		<size width="" height="">320</size>
 	</screen>
-	<character type="player1">
-		<images src="ressources/images/pinky/" />
-		<position x="35" y="35" />
-		<injection class="Player_transferStrategy_std.class" />
-	</character>
-	<character type="player2">
-		<images src="ressources/images/apple/" />
-		<position x="70" y="35" />
-	</character>
-	<character type="boss">
-		<images src="ressources/images/rainbow/" />
-		<position x="925" y="1245" />
-		<injection class="IA_transfertStrategy_std.class" />
-	</character>
+	<level type="host">
+		<character type="player1" class="model.Player">
+			<images key="player1" src="ressources/player/set.txt" />
+			<position key="player1" x="35" y="35" />
+			<injection for="mode.Player" class="model.Player_transferStrategy_std" />
+		</character>
+		<character type="player2" class="model.Player2">
+			<images key="player2"src="ressources/images/apple/" />
+			<position key="player2" x="70" y="35" />
+		</character>
+		<character type="boss" class="model.Boss">
+			<images key="boss" src="ressource/boss/set.txt" />
+			<position key="boss" x="925" y="1245" />
+			<injection for="model.Boss" class="model.IA_transfertStrategy_std" />
+		</character>
+	</level>
+	<level type="cli">
+		<character type="player1Cli" class="model.Player">
+			<images key="playerCli" src="ressources/player/set.txt" />
+			<position key="playerCli" x="70" y="35" />
+			<injection for="model.Player" class="model.Player_transferStrategy_std" />
+		</character>
+		<character type="player2Cli" class="model.Player2">
+			<images key="player2Cli" src="ressources/images/apple/" />
+			<position key="player2Cli" x="35" y="35" />
+		</character>
+		<character type="bossCli" class="model.Boss_IALess">
+		</character>
+	</level
 </configuration>

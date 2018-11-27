@@ -1,6 +1,8 @@
 package services;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,12 +20,14 @@ import org.xml.sax.helpers.XMLReaderFactory;
 @SuppressWarnings("deprecation")
 public class Assembler {
 	
-	private Map<String, String> injections;	//gestion d'un cache
-	private Map<String, String> methods;
+	private Map<String, String> id_class;	//gestion d'un cache
+	private Map<String, String> injections;
+	private Map<String, String> images;
+	private Map<String, int[]> param;
 	
 	public Assembler() throws SAXException, IOException, ParserConfigurationException {
 		injections= new HashMap<>();
-		methods= new HashMap<>();
+		id_class= new HashMap<>();
 		parse();
 	}
 	
@@ -31,87 +35,82 @@ public class Assembler {
 		SAXParserFactory factory= SAXParserFactory.newInstance();
 		SAXParser parser= factory.newSAXParser();
 		parser.parse("ressources/config/conf.xml", new XMLHandler());
-	/*	saxReader.setContentHandler(new DefaultHandler() {
-			public void startElement(String uri, String name, String qualif, Attributes att) 
-			throws SAXException {
-				String application= null, inject= null, method= null;
-				if(name.equals("injection")) {
-					for(int i=0; i<att.getLength(); i++) {
-						if(att.getLocalName(i).equals("apllication")) {
-							application= att.getValue(i);
-						}
-						if(att.getLocalName(i).equals("inject")) {
-							inject= att.getValue(i);
-						}
-					}
-				}
-				injections.put(application, inject);
-				methods.put(inject, method);
-			}
-		}); */
-	}
-	/*
-	private Object injection(String applicationName, String injectionName) throws ClassNotFoundException {
-		Object object= null;
-		Class<?> appli= Class.forName(applicationName);
-		Class<?> injection= Class.forName(injectionName);
-		
-		
-		java.lang.reflect.Method m= appli.getDeclaredMethod("setService", ServiceI.class);
-		object= appli.newInstance();
-		m.invoke(object, injection.newInstance());
-		return object;
 	}
 	
-	public Object newInstance(Class<?> application) throws ClassNotFoundException {
-		return newInstance(application.getName());
+	public Object newInstance(String id) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
+	InstantiationException, IllegalAccessException, IllegalArgumentException,
+	InvocationTargetException {
+		
+		Object res= null;
+			
+		Class<?> injectClass= Class.forName(injections.get(id));
+		Constructor<?> injectConstruct= injectClass.getConstructor();
+		Object inject= injectConstruct.newInstance();
+			
+		Class<?> idClass= Class.forName(id_class.get(id));
+			
+		if(images.containsKey(id)) {
+			int[] p= param.get(id);
+			String img= images.get(id);
+			
+			Constructor<?> id_construct= idClass.getConstructor(img.getClass(), p.getClass());
+			res= id_construct.newInstance(img, p);
+		}else {
+			Constructor<?> id_construct= idClass.getConstructor(injectClass.getInterfaces());
+			res= id_construct.newInstance(inject);
+		}
+		return res;
 	}
 	
-	private Object newInstance(String applicationName) throws ClassNotFoundException {
-		String injectionName= injections.get(applicationName);
-		String methodName= methods.get(injectionName);
-		return injection(applicationName, injectionName);
-	}
-	*/
+	
 	class XMLHandler extends DefaultHandler {
-		
-		private String node= null;
-		
-		@Override
-		public void startDocument() {
-			System.out.println("Start");
-		}
-		
-		@Override
-		public void characters(char[] data, int start, int end) {
-			System.out.println("***************");
-			String str= new String(data, start, end);
-			System.out.println("donnée du noeud : "+node+" :  "+str);
-		}
 		
 		@Override
 		public void startElement(String nameSpaceURI, String lName, String qName,
 				Attributes attr) throws SAXException {
-			System.out.println("----------------------------------");
-			System.out.println("qName: "+qName);
-			node= qName;
-			if(attr != null) {
-				for(int i=0; i<attr.getLength(); i++) {
-					String aName= attr.getLocalName(i);
-					
-					System.out.println("attribute: "+aName+"; value: "+attr.getValue(i));
-				}
+		
+			if(qName.equals("character")) {
+				register(attr, "type", "class");
+			}else if(qName.equals("injection")) {
+				register(attr, "for", "class");
+			}else if(qName.equals("images")) {
+				register(attr, "key", "src");
+			}else if(qName.equals("position")) {
+				register(attr, "key", "x", "y");
 			}
 			
 		}
-		
-		@Override
-		public void endDocument() throws SAXException {
-			System.out.println("fin");
-		}
 	}
+	public void register(Attributes attr, String att1, String att2, String att3) {
+		String id=null; 
+		int[] tab= new int[2];
+		
+		for(int i= 0; i<attr.getLength(); i++) {
+			if(attr.getLocalName(i).equals(att1)) {
+				id= attr.getValue(id);
+			}else if(attr.getLocalName(i).equals(att2)) {
+				tab[0]= Integer.parseInt(attr.getValue(i));
+			}else if(attr.getLocalName(i).equals(att3)) {
+				tab[1]= Integer.parseInt(attr.getValue(id));
+			}
+		}
+		param.put(id, tab);
+	}
+	public void register(Attributes attr, String att1, String att2) {
+		String id= null, classe= null;
+		for(int i=0; i< attr.getLength(); i++) {
+			if(attr.getLocalName(i).equals(att1)) {
+				id= attr.getValue(i);
+			}else if(attr.getLocalName(i).equals(att2)) {
+				classe= attr.getValue(id);
+			}
+		}
+		injections.put(id, classe);
+	}
+		
 	public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {
 		new Assembler();
 	}
+	
 }
 				
