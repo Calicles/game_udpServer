@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration SYSTEM "conf.dtd">
+<configuration>
+	<screen>
+		<size width="" height="">960</size>
+		<size width="" height="">640</size>
+		<size width="" height="">320</size>
+	</screen>
+	<character type="player1">
+		<images src="ressources/images/pinky/" />
+		<position x="35" y="35" />
+		<injection class="Player_transferStrategy_std.class" />
+	</character>
+	<character type="player2">
+		<images src="ressources/images/apple/" />
+		<position x="70" y="35" />
+	</character>
+	<character type="boss">
+		<images src="ressources/images/rainbow/" />
+		<position x="925" y="1245" />
+		<injection class="IA_transfertStrategy_std.class" />
+	</character>
+</configuration>
