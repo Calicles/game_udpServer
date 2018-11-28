@@ -14,6 +14,8 @@ public abstract class AbstractTransfer {
 	public void movesDown() {}
 	public void released() {}
 	
+	public void setAttributes(Rectangle ownPosition, Rectangle player1, AbstractMap map) {}
+	
 	public Coordinates memorizePlayerMoves(Rectangle position, Rectangle player2Position, AbstractMap map) {return null;}
 	public Coordinates memorizeBossMoves() {return null;}
 	public void think(Coordinates bossPosition, Coordinates player1, Coordinates player2) {}

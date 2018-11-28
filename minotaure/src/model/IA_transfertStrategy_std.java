@@ -15,12 +15,16 @@ public class IA_transfertStrategy_std extends AbstractTransfer {
 	
 	public IA_transfertStrategy_std(Rectangle ownPosition, Rectangle player1, AbstractMap map) {
 		super();
-		this.map= map;
-		this.ownPosition= ownPosition;
-		this.player1= player1;
 		this.xVector= 0;
 		this.yVector= -4;
 		this.lastVectors= new Coordinates(0, 0);
+	}
+	
+	@Override
+	public void setAttributes(Rectangle ownPosition, Rectangle player1, AbstractMap map) {
+		this.map= map;
+		this.ownPosition= ownPosition;
+		this.player1= player1;
 		buildThinkPattern();
 		greyCell.start();
 	}

@@ -18,8 +18,8 @@ public abstract class AbstractCharacter {
 	
 	protected int direction, animIndex; 
 	
-	public AbstractCharacter(String setUrl) {
-		Coordinates buffer= new Coordinates(0, 0);
+	public AbstractCharacter(String setUrl, String coorDepart) {
+		Coordinates buffer= tradCoor(coorDepart);
 		animation= Character_reader.readCharactereAnimation(setUrl, buffer);
 		position= new Rectangle(buffer, animation.get(0)[0].getWidth(),
 				animation.get(0)[0].getHeight());
@@ -55,6 +55,11 @@ public abstract class AbstractCharacter {
 	
 	public void drawIfInScreen(Graphics g, Rectangle screen) {
 		g.drawImage(currentImage, position.getX(), position.getY(), null);//TODO Change
+	}
+	
+	private Coordinates tradCoor(String coor) {
+		String[] buff= coor.split(",");
+		return new Coordinates(Integer.parseInt(buff[0]), Integer.parseInt(buff[1]));
 	}
 	
 

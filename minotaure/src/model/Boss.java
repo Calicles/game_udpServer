@@ -5,9 +5,12 @@ import type.AbstractMap;
 
 public class Boss extends AbstractCharacter_with_transfer {
 
-	public Boss(String setUrl, Rectangle player1, AbstractMap map) {
-		super(setUrl);
-		transfer_strategy= new IA_transfertStrategy_std(this.position, player1, map);
+	public Boss(String setUrl, String coorDepart) {
+		super(setUrl, coorDepart);
+	}
+	
+	public void setAttributes(Rectangle player1, AbstractMap map) {
+		transfer_strategy.setAttributes(this.position, player1, map);
 	}
 	
 	@Override

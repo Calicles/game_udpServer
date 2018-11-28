@@ -5,11 +5,10 @@ import type.AbstractMap;
 
 public class Player extends AbstractCharacter_with_transfer {
 	
-	public Player(String setUrl) {
-		super(setUrl);
-		transfer_strategy= new Player_transferStrategy_std();
+	public Player(String setUrl, String coorDepart) {
+		super(setUrl, coorDepart);
 	}
-
+	
 	public void movesLeft() {transfer_strategy.movesLeft();}
 	public void movesRight() {transfer_strategy.movesRight();}
 	public void movesUp() {transfer_strategy.movesUp();}

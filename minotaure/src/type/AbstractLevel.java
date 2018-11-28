@@ -22,9 +22,9 @@ public abstract class AbstractLevel {
 	protected DoubleBoxes scrollBoxes;
 	protected ArrayList<LevelListener> listeners;
 	
-	public AbstractLevel(String playerUrl, Dimension screenSize) {
-		player= new Player(playerUrl);
-		player2= null;
+	public AbstractLevel(Dimension screenSize, Player player, Player2 player2) {
+		this.player= player;
+		this.player2= player2;
 		map= new Map();
 		listeners= new ArrayList<>();
 		setScreenSize(screenSize);

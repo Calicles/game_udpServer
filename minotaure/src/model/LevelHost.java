@@ -15,9 +15,10 @@ public class LevelHost extends AbstractLevel {
 	
 	private boolean inGame;
 	
-	public LevelHost(Dimension screenSize) {
-		super("ressources/player/set.txt", screenSize);
-		boss= new Boss("ressources/boss/set.txt", player.getPosition(), map);	
+	public LevelHost(Dimension screenSize, Player player1, Player2 player2, Boss boss) {
+		super(screenSize, player1, player2);
+		this.boss= boss;
+		boss.setAttributes(player.getPosition(), map);	
 		inGame= false;
 	}
 	
