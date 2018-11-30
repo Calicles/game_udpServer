@@ -6,33 +6,49 @@
 		<size width="" height="">640</size>
 		<size width="" height="">320</size>
 	</screen>
-	<level id="host" class="model.LevelHost" inject="3">
-		<character key="model.LevelHost" class="model.Player">
-			<images key="model.Player" src="ressources/player/set.txt" />
-			<position key="model.Player" coor="35,35" />
-			<injection key="model.Player" class="model.Player_transferStrategy_std" method="setTransfer" />
-		</character>
-		<character key="model.LevelHost" class="model.Player2">
-			<images key="model.Player2"src="ressources/images/apple/" />
-			<position key="model.Player2" coor="70,35" />
-		</character>
-		<character key="model.LevelHost" class="model.Boss">
-			<images key="model.Boss" src="ressource/boss/set.txt" />
-			<position key="model.Boss" coor="925,1245" />
-			<injection key="model.Boss" class="model.IA_transfertStrategy_std" method="setTransfer" />
-		</character>
-	</level>
-	<level id="cli" class="model.LevelCli">
-		<character key="model.LevelCli" class="model.Player">
-			<images key="model.Player" src="ressources/player/set.txt" />
-			<position key="model.Player" coor="70,35" />
-			<injection key="model.Player" class="model.Player_transferStrategy_std" method="setTransfer" />
-		</character>
-		<character key="model.LevelCli" class="model.Player2">
-			<images key="model.Player2" src="ressources/images/apple/" />
-			<position key="model.Player2" coor="35,35" />
-		</character>
-		<character key="model.LevelCli" class="model.Boss_IALess">
-		</character>
-	</level
+	<beans>
+		<bean id="host" class="model.LevelHost" injection="screen;playerHost;player2Host;bossHost">
+			<injection ref="playerHost" method="setPlayer" />
+			<injection ref="player2Host" method="setPlayer2" />
+			<injection ref="bossHost" method="setBoss" />
+			<injection ref="screen" value="640" method="setScreen" />
+		</bean>
+		<bean id="playerHost" class="model.Player" injection="playerHostImage;playerHostPosition;playerHostTransfert">
+			<injection ref="playerHostImage" value="ressources/player/set.txt" method="setUrlImg"/>
+			<injection ref="playerHostPosition" value="35,35" method="setPosition" />
+			<injection ref="playerHostTransfert" method="setTransfert" />
+		</bean>
+		<bean id="playerHostTransfert" class="model.Player_transferStrategy_std">
+		</bean>
+		<bean id="player2Host" class="model.Player2" injection="playerHostImage;player2HostPosition">
+			<injection ref="player2HostImage" value="ressources/images/apple/" method="setUrlImg"/>
+			<injection ref="player2HostPosition" value="70,35" method="setPosition" />
+		</bean>
+		<bean id="bossHost" class="model.Boss" injection="bossHostImage;bossHostPosition;bossHostTransfert">
+			<injection ref="bossHostImage" value="ressources/boss/set.txt" method="setUrlImg" />
+			<injection ref="bossHostPosition" value="925,1245" method="setPosition" />
+			<injection ref="bossHostTransfert" method="setTransfert" />
+		</bean>
+		<bean id="bossHostTransfert" class="model.IA_transfertStrategy_std">
+		</bean>
+		<bean id="cli" class="model.LevelCli" injection="playerCli;player2Cli;bossCli;screen">
+			<injection ref="screen" value="640" method="setScreen" />
+			<injection ref="playerCli" method="setPlayer" />
+			<injection ref="player2Cli" method="setPlayer2" />
+			<injection ref="bossCli" method="setBoss" />
+		</bean>
+		<bean id="playerCli" class="model.Player" injection="playerCliImage;playerCliPosition;playerCliPosition">
+			<injection ref="playerCliImage" value="ressources/player/set.txt" method="setUrlImg" />
+			<injection ref="playerCliPosition" value="70,35" />
+			<injection ref="playerCliTransfert" method="setTransfer" />
+		</bean>
+		<bean id="playerCliTransfert" class="model.Player_transferStrategy_std">
+		</bean>
+		<bean id="player2Cli" class="model.Player2" injection="player2CliImage;player2CliPosition">
+			<injection ref="player2CliImage" value="ressources/images/apple/" method="setUrlImage" />	
+			<injection ref="player2CliPosition" value="35,35" method="setPosition" />
+		</bean>
+		<bean id="bossCli" class="model.Boss_IALess">
+		</bean>
+	</beans>
 </configuration>

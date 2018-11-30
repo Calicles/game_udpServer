@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
+import contracts.Charac_withTransfert;
+import contracts.Charac_withoutTransfert;
 import model.Coordinates;
 import model.DoubleBoxes;
 import model.Map;
@@ -17,8 +19,8 @@ import services.Coordinates_translator;
 public abstract class AbstractLevel {
 	
 	protected AbstractMap map;
-	protected Player player;
-	protected Player2 player2;
+	protected Charac_withTransfert player;
+	protected Charac_withoutTransfert player2;
 	protected DoubleBoxes scrollBoxes;
 	protected ArrayList<LevelListener> listeners;
 	
@@ -29,6 +31,11 @@ public abstract class AbstractLevel {
 		listeners= new ArrayList<>();
 		setScreenSize(screenSize);
 	}
+	
+	public AbstractLevel() {
+		listeners= new ArrayList<>();
+		map= new Map();
+	}
 
 	/**
 	 * initialisation de la représentation numérique de l'écran et du scrolling.
@@ -36,6 +43,13 @@ public abstract class AbstractLevel {
 	 */
 	private void setScreenSize(Dimension screenSize) {
 		scrollBoxes= new DoubleBoxes(new Coordinates(0, 0), screenSize);
+	}
+	
+	public void setScreen(String dim) {
+		Dimension screenSize;
+		int d= Integer.parseInt(dim);
+		screenSize= new Dimension(d, d);
+		setScreenSize(screenSize);
 	}
 	
 	public Coordinates getPlayerCoordinates() {return player.getCoordinates();}

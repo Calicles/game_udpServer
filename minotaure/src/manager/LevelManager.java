@@ -2,11 +2,18 @@ package manager;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import model.Coordinates;
 import model.NetEvent;
 import model.TransferEvent;
 import network.NetWork;
+import services.Assembler;
 import services.LevelFactory;
 import type.AbstractLevel;
 import type.AbstractMap;
@@ -41,8 +48,12 @@ public class LevelManager implements Controller, NetworkListener {
 	}
 	
 	@Override
-	public void createLevel(int levelType, Dimension screenSize) {
-		this.level= LevelFactory.getLevelInstance(levelType, screenSize);
+	public void createLevel(String levelType, Dimension screenSize) throws SAXException,
+	IOException, ParserConfigurationException, ClassNotFoundException, NoSuchMethodException,
+	SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+	InvocationTargetException {
+		Assembler assembler= new Assembler();
+		this.level= (AbstractLevel) assembler.newInstance(levelType);
 		this.server= new NetWork();
 		server.initLine(levelType);
 		server.addListener(this);

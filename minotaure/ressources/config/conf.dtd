@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!ELEMENT configuration (size, character+)>
+<!ELEMENT configuration (size, bean, injection)>
 <!ELEMENT screen (size)+>
 
 <!ELEMENT size (#PCDATA) >
 <!ATTLIST size width CDATA #REQUIRED>
 <!ATTLIST size height CDATA #REQUIRED>
 
-<!ELEMENT character (images, position)+>
-<!ATTLIST character type ID #REQUIRED>
-
-<!ELEMENT images (#PCDATA) >
-<!ATTLIST images src CDATA #REQUIRED>
-
-<!ELEMENT position (#PCDATA) >
-<!ATTLIST position x CDATA #REQUIRED>
-<!ATTLIST position y CDATA #REQUIRED>
+<!ELEMENT bean (#PCDATA)>
+<!ATTLIST bean id ID #REQUIRED>
+<!ATTLIST bean class CDATA #REQUIRED>
+<!ATTLIST bean injection CDATA #IMPLIED>
 
 <!ELEMENT injection (#PCDATA) >
-<!ATTLIST injection class CDATA #REQUIRED>
+<!ATTLIST injection ref ID #REQUIRED>
+<!ATTLIST injection value CDATA #IMPLIED>
+<!ATTLIST injection method CDATA #REQUIRED>

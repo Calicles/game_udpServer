@@ -3,9 +3,14 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import type.Controller;
 
@@ -41,12 +46,26 @@ public class JStartMenu extends JPanel {
 	public void setButtonListener(Controller controller) {
 		
 		levelHostButton.addActionListener((e)->{
-			controller.createLevel(1, screenSize);
+			try {
+				controller.createLevel("host", screenSize);
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException | InvocationTargetException | SAXException
+					| IOException | ParserConfigurationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			userChoosed= true;
 		});
 		
 		levelClientButton.addActionListener((e)->{
-			controller.createLevel(2, screenSize);
+			try {
+				controller.createLevel("cli", screenSize);
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException | InvocationTargetException | SAXException
+					| IOException | ParserConfigurationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			userChoosed= true;
 		});
 	}

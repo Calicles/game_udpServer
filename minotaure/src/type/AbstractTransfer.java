@@ -7,6 +7,9 @@ public abstract class AbstractTransfer {
 	
 	protected int xVector, yVector;
 	
+	public AbstractTransfer() {
+		xVector= 0; yVector= 0;
+	}
 	
 	public void movesLeft() {}
 	public void movesRight() {}

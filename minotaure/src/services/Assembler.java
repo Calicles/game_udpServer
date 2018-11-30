@@ -3,6 +3,7 @@ package services;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,14 +22,13 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class Assembler {
 	
 	private Map<String, String> id_class;	//gestion d'un cache
-	private Map<String, String[]> injections;
-	private Map<String, String> subInjections;
+	private Map<String, String> injections;
 	private Map<String, String> methods;
-	private Map<String, String[]> params;
 	
 	public Assembler() throws SAXException, IOException, ParserConfigurationException {
 		injections= new HashMap<>();
 		id_class= new HashMap<>();
+		methods= new HashMap<>();
 		parse();
 	}		
 	
@@ -41,84 +41,89 @@ public class Assembler {
 	public Object newInstance(String id) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
 	InstantiationException, IllegalAccessException, IllegalArgumentException,
 	InvocationTargetException {
+		return getBean(id);
+	}
+	
+	private Object getBean(String id) throws ClassNotFoundException, NoSuchMethodException,
+	SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+	InvocationTargetException {
 		
-		Object res= null;
+		Class<?> appClass= Class.forName(id_class.get(id));
+		Constructor<?> appCons= appClass.getConstructor();
+		Object app= appCons.newInstance();
+		
+		if(injections.containsKey(id)) {
+			String[] parameters= injections.get(id).split(";");
+			for(int i=0;i<parameters.length;i++) {
 			
-		//TODO
-		return res;
+				if(id_class.containsKey(parameters[i])) {
+					Object o= getBean(parameters[i]);                 
+					Method m= appClass.getDeclaredMethod(methods.get(parameters[i]), o.getClass().getInterfaces()); 
+					m.invoke(app,  o); System.out.println("in assembler   meth"+m);
+				}else {
+					String param= injections.get(parameters[i]);
+					Method m= appClass.getDeclaredMethod(methods.get(parameters[i]), parameters[i].getClass()); 
+					m.invoke(app, param);                          System.out.println("in assembler   meth"+m); 
+				}
+			}	
+		}
+		
+		return app;
+	
 	}
 	
 	
 	class XMLHandler extends DefaultHandler {
 		
-		int indexHost=0;
-		int indexCli=0;
 		
 		@Override
 		public void startElement(String nameSpaceURI, String lName, String qName,
 				Attributes attr) throws SAXException {
 			
-
-			String[] buffer= null;
-			
-			if(qName.equals("host")) {
-				
-				buffer= register(attr, "id", "class", "injection");
-				id_class.put(buffer[0], buffer[1]);
-				injections.put(buffer[1], new String[Integer.parseInt(buffer[2])]);
-				
-			}else if(qName.equals("character")) {
-				
-				buffer= register(attr, "key", "class", "");
-				injections.get(buffer[0])[indexHost]= buffer[1];
-				indexHost++;
-				
+			if(qName.equals("bean")) {
+				registerBean(attr);
 			}else if(qName.equals("injection")) {
-				
-				buffer= register(attr, "key", "class", "method");
-				subInjections.put(buffer[0], buffer[1]);
-				methods.put(buffer[1], buffer[2]);
-				params.put(buffer[0], new String[2]);
-				
-			}else if(qName.equals("images")) {
-				
-				register(attr, "key", "src", 0);
-				
-			}else if(qName.equals("position")) {
-				
-				register(attr, "key", "coor", 1);
+				registerInjection(attr);
 			}
+		
+		}
+
+		private void registerInjection(Attributes attr) {
+			String id= null, value= null, method= null;
 			
+			for(int i=0;i<attr.getLength();i++) {
+				if(attr.getLocalName(i).equals("ref")) {
+					id= attr.getValue(i);
+				}else if(attr.getLocalName(i).equals("value")) {
+					value= attr.getValue(i);
+				}else if(attr.getLocalName(i).equals("method")) {
+					method= attr.getValue(i);
+				}
+			}
+			if(value != null)
+				injections.put(id, value);
+			methods.put(id, method);
+			
+		}
+
+		private void registerBean(Attributes attr) {
+			String id= null, className= null, injection= null;
+			
+			for(int i=0;i<attr.getLength();i++) {
+				if(attr.getLocalName(i).equals("id")) {
+					id= attr.getValue(i);
+				}else if(attr.getLocalName(i).equals("class")) {
+					className= attr.getValue(i);
+				}else if(attr.getLocalName(i).equals("injection")) {
+					injection= attr.getValue(i);
+				}
+			}
+			id_class.put(id, className);
+			if(injection != null)
+				injections.put(id, injection);
+
 		}
 	
-		public String[] register(Attributes attr, String att1, String att2, String att3) {
-			String res= null;
-			for(int i=0; i< attr.getLength(); i++) {
-				if(attr.getLocalName(i).equals(att1)) {
-					res= attr.getValue(i)+";";
-				}else if(attr.getLocalName(i).equals(att2)) {
-					if(att3.isEmpty()) {
-						res += attr.getValue(i);
-					}else
-						res += attr.getValue(i)+";";
-				}else if(attr.getValue(i).equals(att3)) {
-					res += attr.getValue(i);
-				}
-			}
-			return res.split(";");
-		}
-		
-		public void register(Attributes attr, String att1, String att2, int paramIndex) {
-			String id= null, param= null;
-			for(int i=0; i< attr.getLength(); i++) {
-				if(attr.getLocalName(i).equals(att1)) {
-					id= attr.getValue(i);
-				}else if(attr.getLocalName(i).equals(att2)) {
-					param= attr.getValue(id);
-				}
-			}
-			params.get(id)[paramIndex]= param;
-		}
 	}
 		
 	public static void main(String[] args) throws SAXException, IOException, ParserConfigurationException {

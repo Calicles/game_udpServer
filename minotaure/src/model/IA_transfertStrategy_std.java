@@ -1,11 +1,10 @@
 package model;
 
-import java.util.concurrent.locks.ReentrantLock;
-
+import contracts.IA;
 import type.AbstractMap;
 import type.AbstractTransfer;
 
-public class IA_transfertStrategy_std extends AbstractTransfer {
+public class IA_transfertStrategy_std extends AbstractTransfer implements IA {
 	
 	private Thread greyCell;
 	private Rectangle ownPosition, player1, player2;
@@ -14,6 +13,13 @@ public class IA_transfertStrategy_std extends AbstractTransfer {
 	private boolean thinking;
 	
 	public IA_transfertStrategy_std(Rectangle ownPosition, Rectangle player1, AbstractMap map) {
+		super();
+		this.xVector= 0;
+		this.yVector= -4;
+		this.lastVectors= new Coordinates(0, 0);
+	}
+	
+	public IA_transfertStrategy_std() {
 		super();
 		this.xVector= 0;
 		this.yVector= -4;
@@ -128,6 +134,12 @@ public class IA_transfertStrategy_std extends AbstractTransfer {
 		}else									
 			// don't moves
 			return new Coordinates(0, 0);
+	}
+
+	@Override
+	public void think(Rectangle position, Coordinates player1, Coordinates player2) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

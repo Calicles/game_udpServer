@@ -1,9 +1,14 @@
 package model;
 
+import contracts.Player_transfert;
 import type.AbstractMap;
 import type.AbstractTransfer;
 
-public class Player_transferStrategy_std extends AbstractTransfer {
+public class Player_transferStrategy_std extends AbstractTransfer implements Player_transfert {
+	
+	public Player_transferStrategy_std() {
+		super();
+	}
 
 	public void released() {xVector= 0; yVector= 0;}
 	public void movesLeft() {xVector= -4;}
