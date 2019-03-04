@@ -5,15 +5,19 @@ import model.Rectangle;
 
 public abstract class AbstractCharacter_with_transfer extends AbstractCharacter {
 	
-	protected AbstractTransfer transfer_strategy;
 	private int tempo;
 	
-	public AbstractCharacter_with_transfer(String setUrl) {
-		super(setUrl);
+	public AbstractCharacter_with_transfer(String setUrl, String coorDepart) {
+		super(setUrl, coorDepart);
+	}
+	
+	public AbstractCharacter_with_transfer() {
+		super();
 	}
 
 	public Coordinates memorizePlayerMoves(Rectangle player2Position, AbstractMap map) {return null;}
-	public void memorizeBossMoves(Rectangle player1Position, Rectangle player2Position, AbstractMap map) {}	
+	public void memorizeBossMoves() {}	
+	public void think(Coordinates player1, Coordinates player2) {}
 
 	protected void changeSprite(Coordinates vectors) {
 		if(vectors.getX() != 0 || vectors.getY() != 0) {

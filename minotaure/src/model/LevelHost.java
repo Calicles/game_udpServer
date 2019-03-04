@@ -3,23 +3,36 @@ package model;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import contracts.Charac_withTransfert;
+import contracts.Charac_withoutTransfert;
 import type.AbstractLevel;
 import type.LevelListener;
 
 public class LevelHost extends AbstractLevel {
 	
-	private Boss boss;
+	private Charac_withTransfert boss;
 	private Thread gameLoop;
 	private final long SLEEP= 1000 / 24;
 	private long before, after;
 	
 	private boolean inGame;
 	
-	public LevelHost(Dimension screenSize) {
-		super("ressources/player/set.txt", screenSize);
-		boss= new Boss("ressources/boss/set.txt");
+	public LevelHost(Dimension screenSize, Player player1, Player2 player2, Boss boss) {
+		super(screenSize, player1, player2);
+		this.boss= boss;
+		boss.setAttributes(player.getPosition(), map);	
 		inGame= false;
 	}
+	
+	public LevelHost() {
+		super();
+		inGame=false;
+	}
+	
+	public void setScreen(String size) {super.setScreen(size);}
+	public void setPlayer(Charac_withTransfert player) {this.player= player; System.out.println(player);}
+	public void setPlayer2(Charac_withoutTransfert player2) {this.player2= player2;}
+	public void setBoss(Charac_withTransfert boss) {this.boss= boss; boss.setAttributes(player.getPosition(), map);}
 	
 	public Coordinates getBossCoordinates() {return boss.getCoordinates();}
 	public Coordinates getBossImages(){return boss.getImages();}
@@ -70,9 +83,11 @@ public class LevelHost extends AbstractLevel {
 		else player2coor= null;
 		Coordinates vectors= player.memorizePlayerMoves(player2coor, map);
 		scroll(vectors);
-		boss.memorizeMoves(player.getPosition(), map);
+		boss.memorizeBossMoves();
+	 
 		checkCollision();
 		fireUpdate();
+		boss.think(player.getCoordinates(), player2coor);
 		
 	}
 
@@ -99,7 +114,7 @@ public class LevelHost extends AbstractLevel {
 		}catch(NullPointerException ne) {
 			
 			if(te.getNewPlayerPosition() != null) {
-				player2= new Player2("ressources/player/set.txt");
+				
 				player2.setCoordinates(te.getNewPlayerPosition());
 				player2.setImages(te.getPlayerImages());
 			}

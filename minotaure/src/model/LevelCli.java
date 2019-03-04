@@ -18,7 +18,8 @@ public class LevelCli extends AbstractLevel {
 	@Override
 	public void drawLevel(Graphics g) {
 		super.drawLevel(g);
-		boss.draw(g, scrollBoxes.getScreenPosition());
+		if(boss != null)
+			boss.draw(g, scrollBoxes.getScreenPosition());
 	}
 	
 	@Override
@@ -29,7 +30,11 @@ public class LevelCli extends AbstractLevel {
 	}
 	
 	public void loop() {
-		Coordinates vectors= player.memorizePlayerMoves(null, map);//TODO Change
+		Rectangle player2Position;
+		if(player2 != null)
+			player2Position= player2.getPosition();
+		else player2Position= null;
+		Coordinates vectors= player.memorizePlayerMoves(player2Position, map);
 		scroll(vectors);
 		fireUpdate();
 	}

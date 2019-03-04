@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration SYSTEM "conf.dtd">
+<configuration>
+	<screen class="java.awt.Dimension">
+		<size width="" height="">960</size>
+		<size width="" height="">640</size>
+		<size width="" height="">320</size>
+	</screen>
+	<beans>
+		<bean id="host" class="model.LevelHost" injection="screen;playerHost;player2Host;bossHost">
+			<injection ref="playerHost" method="setPlayer" />
+			<injection ref="player2Host" method="setPlayer2" />
+			<injection ref="bossHost" method="setBoss" />
+			<injection ref="screen" value="640" method="setScreen" />
+		</bean>
+		<bean id="playerHost" class="model.Player" injection="playerHostImage;playerHostPosition;playerHostTransfert">
+			<injection ref="playerHostImage" value="ressources/player/set.txt" method="setUrlImg"/>
+			<injection ref="playerHostPosition" value="35,35" method="setPosition" />
+			<injection ref="playerHostTransfert" method="setTransfert" />
+		</bean>
+		<bean id="playerHostTransfert" class="model.Player_transferStrategy_std">
+		</bean>
+		<bean id="player2Host" class="model.Player2" injection="playerHostImage;player2HostPosition">
+			<injection ref="player2HostImage" value="ressources/images/apple/" method="setUrlImg"/>
+			<injection ref="player2HostPosition" value="70,35" method="setPosition" />
+		</bean>
+		<bean id="bossHost" class="model.Boss" injection="bossHostImage;bossHostPosition;bossHostTransfert">
+			<injection ref="bossHostImage" value="ressources/boss/set.txt" method="setUrlImg" />
+			<injection ref="bossHostPosition" value="925,1245" method="setPosition" />
+			<injection ref="bossHostTransfert" method="setTransfert" />
+		</bean>
+		<bean id="bossHostTransfert" class="model.IA_transfertStrategy_std">
+		</bean>
+		<bean id="cli" class="model.LevelCli" injection="playerCli;player2Cli;bossCli;screen">
+			<injection ref="screen" value="640" method="setScreen" />
+			<injection ref="playerCli" method="setPlayer" />
+			<injection ref="player2Cli" method="setPlayer2" />
+			<injection ref="bossCli" method="setBoss" />
+		</bean>
+		<bean id="playerCli" class="model.Player" injection="playerCliImage;playerCliPosition;playerCliPosition">
+			<injection ref="playerCliImage" value="ressources/player/set.txt" method="setUrlImg" />
+			<injection ref="playerCliPosition" value="70,35" />
+			<injection ref="playerCliTransfert" method="setTransfer" />
+		</bean>
+		<bean id="playerCliTransfert" class="model.Player_transferStrategy_std">
+		</bean>
+		<bean id="player2Cli" class="model.Player2" injection="player2CliImage;player2CliPosition">
+			<injection ref="player2CliImage" value="ressources/images/apple/" method="setUrlImage" />	
+			<injection ref="player2CliPosition" value="35,35" method="setPosition" />
+		</bean>
+		<bean id="bossCli" class="model.Boss_IALess">
+		</bean>
+	</beans>
+</configuration>

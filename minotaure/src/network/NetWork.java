@@ -16,7 +16,7 @@ public class NetWork {
 	
 	public LevelListener getLine() {return line;}
 	
-	public void initLine(int type) {
+	public void initLine(String type) {
 		line= ServerFactory.getServerInstance(type);
 	}
 	

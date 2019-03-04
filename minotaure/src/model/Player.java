@@ -1,15 +1,35 @@
 package model;
 
+import contracts.Charac_withTransfert;
+import contracts.Player_transfert;
 import type.AbstractCharacter_with_transfer;
 import type.AbstractMap;
+import type.AbstractTransfer;
 
-public class Player extends AbstractCharacter_with_transfer {
+public class Player extends AbstractCharacter_with_transfer implements Charac_withTransfert {
 	
-	public Player(String setUrl) {
-		super(setUrl);
-		transfer_strategy= new Player_transferStrategy_std();
+	private Player_transfert transfer_strategy;
+	
+	public Player(String setUrl, String coorDepart) {
+		super(setUrl, coorDepart);
 	}
-
+	
+	public Player() {
+		super();
+	}
+	
+	public void setUrlImg(String url) {
+		super.setUrlImage(url);
+	}
+	
+	public void setPosition(String coorDepart) {
+		super.setPosition(coorDepart);
+	}
+	
+	public void setTransfert(Player_transfert t) {
+		this.transfer_strategy= t;
+	}
+	
 	public void movesLeft() {transfer_strategy.movesLeft();}
 	public void movesRight() {transfer_strategy.movesRight();}
 	public void movesUp() {transfer_strategy.movesUp();}
@@ -30,6 +50,12 @@ public class Player extends AbstractCharacter_with_transfer {
 		//change la sprite
 		changeSprite(vectors);
 		return vectors;
+	}
+
+	@Override
+	public void setAttributes(Rectangle position, AbstractMap map) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
